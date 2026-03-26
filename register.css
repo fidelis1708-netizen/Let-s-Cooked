@@ -1,0 +1,113 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+}
+
+.login-card {
+  background-color: white;
+  border-radius: 20px;
+  max-width: 950px;
+  width: 100%;
+}
+
+.left-panel {
+  background: linear-gradient(135deg, #6296e4 0%, #3b71ca 100%);
+  position: relative; /* Penting agar elemen di dalamnya bisa diatur posisinya */
+  overflow: hidden; /* Agar gambar tidak keluar dari kotak yang melengkung */
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 3.5rem;
+}
+
+/* Teks diletakkan di atas gambar */
+.left-panel .content {
+  position: relative;
+  z-index: 2; /* Memastikan teks berada di lapisan paling atas */
+  color: white;
+}
+
+/* Mengatur Gambar sebagai Background Full */
+.left-panel .image-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Di bawah teks, tapi di atas background warna */
+}
+
+.left-panel .image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Gambar akan memenuhi kotak tanpa gepeng */
+  object-position: center; /* Fokus gambar di tengah */
+  /* Opsional: Tambahkan sedikit transparansi agar teks lebih kontras */
+  opacity: 0.8;
+}
+/* Warna dasar link (saat tidak aktif) */
+.nav-link {
+  color: #6c757d !important; /* Warna abu-abu */
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent; /* Garis transparan agar tidak melompat */
+}
+
+/* --- Bagian Navigasi Tab (Gunakan di Login & Register) --- */
+
+/* Warna dasar link saat tidak aktif */
+.nav-link {
+  color: #6c757d !important; /* Abu-abu default */
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent !important;
+  font-weight: 500;
+}
+
+/* HOVER: Dipaksa menjadi biru di kedua halaman */
+.nav-link:hover {
+  color: #3b71ca !important; /* Biru Lost & Found */
+  border-bottom: 3px solid rgba(59, 113, 202, 0.3) !important;
+}
+
+/* AKTIF: Tab yang sedang dibuka */
+.nav-link.active-tab {
+  color: #3b71ca !important;
+  border-bottom: 3px solid #3b71ca !important;
+  font-weight: bold;
+}
+/* Kotak Putih Melayang di dalam Panel Kanan */
+.inner-form-box {
+  background-color: white;
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Bayangan halus */
+
+  /* KUNCI UKURAN DI SINI */
+  width: 100%;
+  max-width: 420px; /* Lebar tetap kotak putih */
+  height: 550px; /* Tinggi tetap kotak putih */
+
+  /* Mengatur isi di dalamnya */
+  display: flex;
+  flex-direction: column;
+  margin: auto; /* Agar kotak berada di tengah panel kanan */
+}
+
+/* Bagian Form agar bisa di-scroll jika input terlalu banyak */
+.form-scroll-area {
+  overflow-y: auto; /* Scroll aktif hanya jika konten melebihi 550px */
+  flex-grow: 1;
+  padding-right: 5px; /* Ruang agar scrollbar tidak menutupi teks */
+}
+
+/* Menghilangkan Scrollbar agar terlihat bersih (Opsional) */
+.form-scroll-area::-webkit-scrollbar {
+  width: 4px;
+}
+.form-scroll-area::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.footer {
+  font-size: 0.75rem;
+}

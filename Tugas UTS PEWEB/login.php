@@ -19,7 +19,7 @@
                     <div class="content">
                         <small class="fw-bold">Lost & Found KRL</small>
                         <h1 class="fw-bold mt-2">Lost & Found KRL</h1>
-                        <p>Temukan barang hilangmu dengan mudah dan cepat dari darren untuk darren</p>
+                        <p>Temukan barang hilangmu dengan mudah dan cepat</p>
                     </div>
 
                     <div class="image-container">

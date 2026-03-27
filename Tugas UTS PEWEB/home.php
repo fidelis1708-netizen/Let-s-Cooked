@@ -11,8 +11,8 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Lost & Found KRL</title>
-    <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="desain/sidebar.css">
+    <link rel="stylesheet" href="desain/home.css">
 </head>
 <body>
 

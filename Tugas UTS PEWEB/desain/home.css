@@ -33,7 +33,7 @@ html {
 .banner {
   background:
     linear-gradient(135deg, rgba(78, 115, 223, 0.4), rgba(34, 74, 190, 0.4)),
-    url("image/kereta2.jpeg");
+    url("../image/kereta2.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

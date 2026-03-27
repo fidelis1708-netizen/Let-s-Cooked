@@ -12,7 +12,7 @@ if (!isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Kehilangan - Lost & Found KRL</title>
     <link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="laporan.css">
+    <link rel="stylesheet" href="desain/laporan.css">
 </head>
 <body>
 

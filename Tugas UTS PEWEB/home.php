@@ -11,6 +11,7 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Lost & Found KRL</title>
+    <link rel="stylesheet" href="sidebar.css">
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
@@ -18,11 +19,11 @@ if (!isset($_SESSION['username'])) {
 <div class="app-container">
     <aside class="sidebar">
         <h2 class="logo">🔍 Lost & Found KRL</h2>
-        <ul>
-            <li class="active">Dashboard</li>
-            <li>Laporkan Kehilangan</li>
-            <li>Barang Temuan</li>
-            <li>Profil</li>
+            <ul>
+            <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
+            <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
+            <li onclick="location.href='temuan.php'">Barang Temuan</li>
+            <li onclick="location.href='profil.php'">Profil</li>
         </ul>
     </aside>
 
@@ -33,6 +34,7 @@ if (!isset($_SESSION['username'])) {
                     <h1>Selamat datang, <?php echo $_SESSION['username']; ?>!</h1>
                     <p>Temukan atau laporkan barang hilang di area KRL dengan mudah.</p>
                 </div>
+
             </div>
 
             <div class="cards">
@@ -48,57 +50,39 @@ if (!isset($_SESSION['username'])) {
         </div>
 
         <div class="scroll-area">
-            <div class="notif-box">
-                <h2>Notifikasi</h2>
-                
-                <div class="notif">
-                    <span>✅</span>
-                    <div>
-                        <h4>Laporan kamu sedang diproses</h4>
-                        <p>Pengajuan laporan Dompet Coklat sedang diproses</p>
-                    </div>
-                    <small>10 menit lalu</small>
-                </div>
+        <div class="notif-box">
+    <h2>Notifikasi</h2>
+    <?php
+    include 'koneksi.php';
+    $id_pelapor = $_SESSION['id_user']; 
 
-                <div class="notif">
-                    <span>🔍</span>
-                    <div>
-                        <h4>Barang mirip ditemukan</h4>
-                        <p>Ditemukan di Stasiun Sudirman</p>
-                    </div>
-                    <small>1 jam lalu</small>
-                </div>
+    // Query menggunakan id_pelapor sesuai struktur database
+    $sql = "SELECT * FROM laporan_kehilangan WHERE id_pelapor = '$id_pelapor' ORDER BY id_laporan DESC";
+    $result = mysqli_query($conn, $sql);
 
-                <div class="notif">
-                    <span>⚠️</span>
-                    <div>
-                        <h4>Lengkapi data laporan</h4>
-                        <p>Handphone Biru belum lengkap</p>
-                    </div>
-                    <small>2 hari lalu</small>
+    if ($result && mysqli_num_rows($result) > 0) {
+        while($row = mysqli_fetch_assoc($result)) {
+            // Logika ikon berdasarkan status_laporan (mencari, cocok, selesai)
+            $icon = "🕒"; 
+            if ($row['status_laporan'] == 'cocok') $icon = "🔍";
+            if ($row['status_laporan'] == 'selesai') $icon = "✅";
+    ?>
+            <div class="notif">
+                <span><?php echo $icon; ?></span>
+                <div>
+                    <h4>Laporan <?php echo htmlspecialchars($row['nama_barang']); ?></h4>
+                    <p><?php echo htmlspecialchars($row['deskripsi_ciri_khusus']); ?> (Status: <strong><?php echo $row['status_laporan']; ?></strong>)</p>
                 </div>
-
-                <div class="notif">
-                    <span>📄</span>
-                    <div>
-                        <h4>Laporan kehilangan dibuat</h4>
-                        <p>Kamu melaporkan Dompet Coklat</p>
-                    </div>
-                    <small>3 hari lalu</small>
-                </div>
-
-                <?php for($i=0; $i<5; $i++) { ?>
-                <div class="notif">
-                    <span>🕒</span>
-                    <div>
-                        <h4>Riwayat Laporan Lama</h4>
-                        <p>Catatan aktivitas sebelumnya...</p>
-                    </div>
-                    <small>Selesai</small>
-                </div>
-                <?php } ?>
+                <small><?php echo date('d M', strtotime($row['tanggal_hilang'])); ?></small>
             </div>
-        </div>
+    <?php 
+        }
+    } else {
+        echo "<div style='text-align:center; padding: 20px; color: gray;'>Belum ada laporan kehilangan yang dibuat.</div>";
+    }
+    ?>
+</div>
+</div>
 
         <footer class="main-footer">
             © 2024 Lost & Found KRL. All rights reserved.

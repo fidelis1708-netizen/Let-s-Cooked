@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Kehilangan</title>
+    <link rel="stylesheet" href="laporan.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>🔍 Lost & Found KRL</h2>
+        <ul>
+            <li>Dashboard</li>
+            <li class="active">Laporan Kehilangan</li>
+            <li>Barang Temuan</li>
+            <li>Profil</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <!-- Search -->
+        <div class="topbar">
+            <input type="text" placeholder="Cari barang hilang...">
+        </div>
+
+        <!-- Form -->
+        <div class="card">
+            <h2>Laporan Kehilangan</h2>
+            <p>Isi formulir berikut untuk melaporkan barang yang hilang di area KRL.</p>
+
+            <form>
+
+                <!-- Jenis Barang -->
+                <label>Jenis Barang yang Hilang</label>
+                <input type="text" placeholder="Contoh: Dompet, HP, Tas...">
+
+                <!-- Lokasi -->
+                <label>Lokasi Kehilangan</label>
+
+                    <select>
+                        <option value="">-- Pilih Lokasi --</option>
+                        <option>Stasiun Sudirman</option>
+                        <option>Stasiun Manggarai</option>
+                        <option>Stasiun Tanah Abang</option>
+                        <option>Stasiun Bekasi</option>
+                        <option>Stasiun Bogor</option>
+                        <option>Stasiun Depok</option>
+                        <option>Stasiun Kota</option>
+                    </select>
+
+                <!-- Tanggal -->
+                <label>Tanggal Kehilangan</label>
+                <input type="date">
+
+                <!-- Deskripsi -->
+                <label>Deskripsi Barang yang Hilang</label>
+                <textarea placeholder="Contoh: Dompet coklat berisi KTP, ATM, uang..."></textarea>
+
+                <!-- Upload -->
+                <label>Foto Barang (Opsional)</label>
+                <div class="upload-box">
+                    <p>Unggah foto barang yang hilang</p>
+                    <button type="button">Unggah Foto</button>
+                </div>
+
+                <!-- Button -->
+                <button class="submit-btn">Laporkan Kehilangan</button>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

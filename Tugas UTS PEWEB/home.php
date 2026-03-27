@@ -22,7 +22,7 @@ if (!isset($_SESSION['username'])) {
         <ul>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
-            <li onclick="location.href='temuan.php'">Barang Temuan</li>
+            <li onclick="location.href='temuan.php'">Panduan Melaporkan</li>
             <li onclick="location.href='profil.php'">Profil</li>
         </ul>
     </aside>
@@ -31,21 +31,22 @@ if (!isset($_SESSION['username'])) {
         <div class="fixed-top-section">
             <div class="banner">
                 <div class="banner-text">
-                    <h1>Selamat datang, <?php echo $_SESSION['username']; ?>!</h1>
+                    <h1>Selamat datang, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
                     <p>Temukan atau laporkan barang hilang di area KRL dengan mudah.</p>
                 </div>
             </div>
 
             <div class="cards">
-                <div class="card">
-                    <h3>📋 Laporan Kehilangan</h3>
-                    <p>Laporkan barang hilang</p>
+                <div class="card" onclick="location.href='riwayat_selesai.php'">
+                    <h3>📋 Riwayat Laporan</h3>
+                    <p>Daftar laporan selesai</p>
                 </div>
-                <div class="card">
+
+                <div class="card" onclick="location.href='pantau_status.php'">
                     <h3>🔎 Pantau Status Barang</h3>
                     <p>Lihat status laporanmu</p>
                 </div>
-            </div>
+            </div>  
         </div>
 
         <div class="scroll-area">
@@ -55,13 +56,11 @@ if (!isset($_SESSION['username'])) {
                 include 'koneksi.php';
                 $id_pelapor = $_SESSION['id_user']; 
 
-                // Query menggunakan id_pelapor sesuai struktur database
                 $sql = "SELECT * FROM laporan_kehilangan WHERE id_pelapor = '$id_pelapor' ORDER BY id_laporan DESC";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result && mysqli_num_rows($result) > 0) {
                     while($row = mysqli_fetch_assoc($result)) {
-                        // Logika ikon berdasarkan status_laporan (mencari, cocok, selesai)
                         $icon = "🕒"; 
                         if ($row['status_laporan'] == 'cocok') $icon = "🔍";
                         if ($row['status_laporan'] == 'selesai') $icon = "✅";
@@ -70,7 +69,7 @@ if (!isset($_SESSION['username'])) {
                             <span><?php echo $icon; ?></span>
                             <div>
                                 <h4>Laporan <?php echo htmlspecialchars($row['nama_barang']); ?></h4>
-                                <p><?php echo htmlspecialchars($row['deskripsi_ciri_khusus']); ?> (Status: <strong><?php echo $row['status_laporan']; ?></strong>)</p>
+                                <p><?php echo htmlspecialchars($row['deskripsi_ciri_khusus']); ?></p>
                             </div>
                             <small><?php echo date('d M', strtotime($row['tanggal_hilang'])); ?></small>
                         </div>

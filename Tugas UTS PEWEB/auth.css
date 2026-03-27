@@ -1,0 +1,364 @@
+renn
+renn7045
+•
+sybau
+Jockie Music (2)
+APP
+ — Yesterday at 12:51
+:spotify: ​ Started playing God's Plan by Drake
+renn [CHⅣE],  — Yesterday at 12:52
+m!autoplay
+Jockie Music (2)
+APP
+ — Yesterday at 12:52
+You are missing the required session permission autoplay to do that
+Jockie Music (2)
+APP
+ — Yesterday at 12:55
+:spotify: ​ Started playing Unforgettable by French Montana
+:spotify: ​ Started playing Starboy by The Weeknd
+Jockie Music (2)
+APP
+ — Yesterday at 13:02
+:spotify: ​ Started playing Hotline Bling by Drake
+:spotify: ​ Started playing Laugh Now Cry Later (feat. Lil Durk) by Drake
+Jockie Music (2)
+APP
+ — Yesterday at 13:11
+:spotify: ​ Started playing Congratulations by Post Malone
+pidelisterine — Yesterday at 13:14
+http://localhost/UTS%20PEMROWEB/Tugas%20UTS%20PEWEB/login.php
+Jockie Music (2)
+APP
+ — Yesterday at 13:15
+:spotify: ​ Started playing rockstar (feat. 21 Savage) by Post Malone
+:spotify: ​ Started playing Better Now by Post Malone
+Jockie Music (2)
+APP
+ — Yesterday at 13:22
+:spotify: ​ Started playing goosebumps by Travis Scott
+pidelisterine — Yesterday at 13:23
+Attachment file type: archive
+UTS PEMROWEB.zip
+206.31 KB
+Jockie Music (2)
+APP
+ — Yesterday at 13:26
+:spotify: ​ Started playing All My Life (feat. J. Cole) by Lil Durk
+renn [CHⅣE],  — Yesterday at 13:28
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Kehilangan</title>
+
+message.txt
+3 KB
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+message.txt
+3 KB
+Jockie Music (2)
+APP
+ — Yesterday at 13:30
+:spotify: ​ Started playing Black Beatles by Rae Sremmurd
+:spotify: ​ Started playing HIGHEST IN THE ROOM by Travis Scott
+Jockie Music (2)
+APP
+ — Yesterday at 13:38
+:spotify: ​ Started playing Life Is Good (feat. Drake) by Future
+:spotify: ​ Started playing Praise The Lord (Da Shine) (feat. Skepta) by A$AP Rocky
+Jockie Music (2)
+APP
+ — Yesterday at 13:45
+:spotify: ​ Started playing Mockingbird by Eminem
+:spotify: ​ Started playing In Da Club by 50 Cent
+pidelisterine — Yesterday at 13:50
+m!s
+Jockie Music (2)
+APP
+ — Yesterday at 13:50
+In Da Club by 50 Cent has been skipped by @pidelisterine (requester privilege)
+Jockie Music (2)
+APP
+ — Yesterday at 13:50
+:spotify: ​ Started playing Still D.R.E. by Dr. Dre
+pidelisterine — Yesterday at 13:50
+m!stop
+Jockie Music (2)
+APP
+ — Yesterday at 13:50
+Thank you for using our service!
+
+Come join our support server to get information about updates, issues and for discussions about bot features!
+Image
+Your suggestions and opinions are always considered!
+pidelisterine — Yesterday at 14:16
+der
+padim
+pidelisterine — 00:53
+/* 1. Reset & Base Styling */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container utama kartu */
+.login-card {
+  background-color: white;
+  border-radius: 24px;
+  max-width: 950px;
+  width: 95%;
+  display: flex;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out both; /* Efek transisi halus saat muat halaman */
+}
+
+/* 2. Panel Kiri (Gambar & Gradien) */
+.left-panel {
+  background: linear-gradient(135deg, #6296e4 0%, #3b71ca 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 550px;
+  display: flex;
+  flex-direction: column;
+  padding: 3.5rem;
+  color: white;
+}
+
+.left-panel .content {
+  position: relative;
+  z-index: 10;
+}
+
+.left-panel .image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.left-panel .image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  filter: brightness(0.8);
+}
+
+/* 3. Panel Kanan & KUNCI UKURAN KONTEN */
+.inner-form-box {
+  background-color: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px; /* Lebar tetap agar stabil */
+  height: 520px; /* Tinggi tetap agar tidak melar saat tambah form */
+  display: flex;
+  flex-direction: column;
+  margin: auto; /* Menjaga posisi di tengah panel */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-scroll-area {
+  overflow-y: auto; /* Scroll aktif hanya di dalam kotak jika konten penuh */
+  flex-grow: 1;
+  padding-right: 5px;
+}
+
+/* 4. Navigasi Tab (SOLUSI WARNA BIRU & GARIS BAWAH) */
+.nav-link {
+  color: #6c757d !important; /* Warna abu-abu default */
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent !important; /* Garis transparan awal */
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Efek Hover: Dipaksa Biru */
+.nav-link:hover {
+  color: #3b71ca !important;
+  border-bottom: 3px solid rgba(59, 113, 202, 0.3) !important;
+}
+
+/* Keadaan Aktif: Garis Bawah Biru Tegas */
+.nav-link.active-tab {
+  color: #3b71ca !important;
+  border-bottom: 3px solid #3b71ca !important;
+  font-weight: bold;
+}
+
+/* 5. Komponen Form (Input & Button) */
+.input-group {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+... (54 lines left)
+
+message.txt
+4 KB
+﻿
+/* 1. Reset & Base Styling */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container utama kartu */
+.login-card {
+  background-color: white;
+  border-radius: 24px;
+  max-width: 950px;
+  width: 95%;
+  display: flex;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out both; /* Efek transisi halus saat muat halaman */
+}
+
+/* 2. Panel Kiri (Gambar & Gradien) */
+.left-panel {
+  background: linear-gradient(135deg, #6296e4 0%, #3b71ca 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 550px;
+  display: flex;
+  flex-direction: column;
+  padding: 3.5rem;
+  color: white;
+}
+
+.left-panel .content {
+  position: relative;
+  z-index: 10;
+}
+
+.left-panel .image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.left-panel .image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+  filter: brightness(0.8);
+}
+
+/* 3. Panel Kanan & KUNCI UKURAN KONTEN */
+.inner-form-box {
+  background-color: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px; /* Lebar tetap agar stabil */
+  height: 520px; /* Tinggi tetap agar tidak melar saat tambah form */
+  display: flex;
+  flex-direction: column;
+  margin: auto; /* Menjaga posisi di tengah panel */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.form-scroll-area {
+  overflow-y: auto; /* Scroll aktif hanya di dalam kotak jika konten penuh */
+  flex-grow: 1;
+  padding-right: 5px;
+}
+
+/* 4. Navigasi Tab (SOLUSI WARNA BIRU & GARIS BAWAH) */
+.nav-link {
+  color: #6c757d !important; /* Warna abu-abu default */
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent !important; /* Garis transparan awal */
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Efek Hover: Dipaksa Biru */
+.nav-link:hover {
+  color: #3b71ca !important;
+  border-bottom: 3px solid rgba(59, 113, 202, 0.3) !important;
+}
+
+/* Keadaan Aktif: Garis Bawah Biru Tegas */
+.nav-link.active-tab {
+  color: #3b71ca !important;
+  border-bottom: 3px solid #3b71ca !important;
+  font-weight: bold;
+}
+
+/* 5. Komponen Form (Input & Button) */
+.input-group {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.input-group:focus-within {
+  border-color: #3b71ca !important;
+  box-shadow: 0 0 0 3px rgba(59, 113, 202, 0.1);
+}
+
+.btn-primary {
+  background-color: #3b71ca;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #2a5298;
+  transform: translateY(-1px);
+}
+
+/* 6. Animasi */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Styling Footer Copyright */
+.auth-footer {
+  width: 100%;
+  padding: 15px 0;
+  text-align: center;
+  background-color: #ffffff; /* Samakan dengan background kartu */
+  border-top: 1px solid #f1f1f1; /* Garis tipis pembatas */
+}
+
+.auth-footer p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #a0aec0; /* Abu-abu halus agar tidak mencolok */
+  letter-spacing: 0.5px;
+}
+
+/* Pastikan login-card memiliki flex-direction column agar footer di bawah */
+.login-card {
+  display: flex;
+  flex-direction: column;
+  /* ... properti lainnya ... */
+}

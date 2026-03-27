@@ -1,0 +1,167 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f4f6fb;
+}
+
+/* LAYOUT */
+.container {
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(#4e73df, #224abe);
+  color: white;
+  height: 100vh;
+  padding: 20px;
+}
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sidebar li.active,
+.sidebar li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* MAIN */
+/* Pastikan parent-nya (yaitu .main) punya posisi relatif */
+.main {
+  position: relative;
+  height: 100vh; /* Memastikan main area setinggi layar */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Mencegah scroll di level main */
+}
+
+/* Update khusus Footer */
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45px; /* Sesuaikan tinggi footer */
+  background-color: #ffffff; /* Warna putih agar bersih */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+  color: #94a3b8;
+  z-index: 99; /* Agar selalu di atas konten lain saat di-scroll */
+}
+
+/* Tambahkan padding-bottom pada pembungkus notifikasi 
+   agar notif paling bawah tidak tertutup oleh footer */
+.notif-box {
+  overflow-y: auto;
+  padding-bottom: 60px; /* Harus lebih besar dari tinggi footer */
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.topbar input {
+  width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.user {
+  font-size: 24px;
+}
+
+/* BANNER */
+.banner {
+  background: linear-gradient(135deg, #4e73df, #224abe);
+  color: white;
+  padding: 40px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* NOTIF */
+.notif-box {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.notif-box h2 {
+  margin-bottom: 15px;
+}
+
+.notif {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.notif span {
+  font-size: 24px;
+  margin-right: 15px;
+}
+
+.notif div {
+  flex: 1;
+}
+
+.notif h4 {
+  font-size: 16px;
+}
+
+.notif p {
+  font-size: 13px;
+  color: gray;
+}
+
+.notif small {
+  color: gray;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 15px;
+  color: gray;
+}

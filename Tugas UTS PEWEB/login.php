@@ -1,9 +1,34 @@
 <?php
-// Kamu bisa menaruh logika PHP (koneksi database atau cek login) di sini
+session_start();
+include "koneksi.php"; 
+
 if (isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    // Proses login...
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = $_POST['password']; 
+
+    // Sesuaikan nama tabel: users
+    $query = "SELECT * FROM users WHERE email = '$email'";
+    $result = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+
+        // Cek password (bisa hash atau teks biasa)
+        if (password_verify($password, $row['password']) || $password == $row['password']) {
+            
+            // PENTING: Gunakan kolom 'nama' sesuai gambar database kamu
+            $_SESSION['username'] = $row['nama']; 
+            $_SESSION['id_user'] = $row['id_user'];
+            $_SESSION['role'] = $row['role']; // Ambil role (petugas/pelapor)
+            
+            header("Location: home.php");
+            exit();
+        } else {
+            $error = "Password salah!";
+        }
+    } else {
+        $error = "Email tidak terdaftar!";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -28,12 +53,11 @@ if (isset($_POST['login'])) {
                     <p>Temukan barang hilangmu dengan mudah dan cepat</p>
                 </div>
                 <div class="image-container">
-                    <img src="image/KERETAA.jpeg" alt="KRL Illustration">
+                    <img src="image/KERETAA.jpeg" alt="KRL Illustration" onerror="this.src='https://via.placeholder.com/400x300?text=KRL+Illustration'">
                 </div>
             </div>
 
             <div class="col-md-6 d-flex align-items-center justify-content-center bg-panel-right">
-                
                 <div class="inner-form-box fade-in-up">
                     <div class="d-flex justify-content-center mb-4 border-bottom">
                         <a href="login.php" class="nav-link active-tab pb-2 px-3 fw-bold">Login</a>
@@ -42,6 +66,10 @@ if (isset($_POST['login'])) {
 
                     <div class="form-content">
                         <h3 class="fw-bold mb-4 text-dark">Login</h3>
+
+                        <?php if(isset($error)): ?>
+                            <div class="alert alert-danger small p-2"><?= $error; ?></div>
+                        <?php endif; ?>
                         
                         <form action="" method="POST">
                             <div class="mb-3">
@@ -73,10 +101,11 @@ if (isset($_POST['login'])) {
                             </p>
                         </form>
                     </div>
-                </div> </div>
+                </div>
+            </div>
         </div>
-        <div class="auth-footer">
-            <p>© 2024 Lost & Found KRL. All rights reserved.</p>
+        <div class="auth-footer text-center py-3 border-top bg-light">
+            <p class="m-0 small text-muted">© 2024 Lost & Found KRL. All rights reserved.</p>
         </div>
     </div>
 </div>

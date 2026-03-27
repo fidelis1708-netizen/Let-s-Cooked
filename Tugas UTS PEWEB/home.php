@@ -22,7 +22,7 @@ if (!isset($_SESSION['username'])) {
         <ul>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
-            <li onclick="location.href='temuan.php'">Panduan Melaporkan</li>
+            <li onclick="location.href='panduan.php'">Panduan Melaporkan</li>
             <li onclick="location.href='profil.php'">Profil</li>
         </ul>
     </aside>

@@ -190,3 +190,105 @@ body {
     background-color: #dc3545; /* Background berubah jadi merah */
     color: white; /* Teks berubah jadi putih */
 }
+
+
+/* --- Modal Pop-up Edit Profil --- */
+.modal-overlay {
+    display: none; /* Disembunyikan awalnya, JS yang akan memunculkan */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Efek redup di background */
+    z-index: 1000; /* Biar posisinya paling depan menutupi yang lain */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Kotak Form di tengah layar */
+.modal-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: muncul 0.3s ease-out; /* Animasi halus pas muncul */
+}
+
+/* Animasi Muncul dari atas */
+@keyframes muncul {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    color: #333;
+}
+
+.close-btn {
+    font-size: 28px;
+    color: #aaa;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    color: #dc3545; /* Merah pas di-hover */
+}
+
+/* Styling Form dalam Pop-up */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #3b5dbb; /* Biru KRL */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 93, 187, 0.1);
+}
+
+.btn-save {
+    width: 100%;
+    background-color: #3b5dbb;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.btn-save:hover {
+    background-color: #2a4592;
+}

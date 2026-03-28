@@ -51,7 +51,7 @@
                             <div class="info-value">081234567890</div>
                         </div>
 
-                        <button class="btn-edit">Edit Profil</button>
+                        <button class="btn-edit" onclick="bukaModal()">Edit Profil</button>
 
                         <a href="login.php" class="btn-logout" onclick="return confirm('Apakah Anda yakin ingin keluar dari akun ini?');">Logout</a>
 
@@ -60,6 +60,51 @@
             </div>
         </main>
     </div>
+
+    <div id="modalEdit" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Edit Profil</h2>
+                <span class="close-btn" onclick="tutupModal()">&times;</span>
+            </div>
+            
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" value="jawa icikiwir" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="jawa.icikiwir@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Nomor Telepon</label>
+                    <input type="text" value="081234567890" required>
+                </div>
+                <button type="submit" class="btn-save">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi membuka modal
+        function bukaModal() {
+            document.getElementById('modalEdit').style.display = 'flex';
+        }
+
+        // Fungsi menutup modal
+        function tutupModal() {
+            document.getElementById('modalEdit').style.display = 'none';
+        }
+
+        // Tutup otomatis kalau user ngeklik area gelap di luar kotak form
+        window.onclick = function(event) {
+            var modal = document.getElementById('modalEdit');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>

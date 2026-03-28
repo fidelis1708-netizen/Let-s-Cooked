@@ -9,7 +9,6 @@ if (!isset($_SESSION['id_user'])) {
 
 $id_pelapor = $_SESSION['id_user']; 
 
-// Sesuaikan nama tabel (laporan_kehilangan) dan kolom (status_laporan)
 $query = "SELECT * FROM laporan_kehilangan WHERE id_pelapor = '$id_pelapor' AND status_laporan = 'selesai' ORDER BY id_laporan DESC";
 $result = mysqli_query($conn, $query);
 ?>

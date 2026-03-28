@@ -7,22 +7,17 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
     $konfirmasi = $_POST['konfirmasi_password'];
 
-    // 1. Cek apakah password sama
     if ($password !== $konfirmasi) {
         echo "<script>alert('Konfirmasi password tidak sesuai!'); window.location='register.php';</script>";
     } else {
-        // 2. Enkripsi password untuk keamanan
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
-        // 3. Set role otomatis sebagai 'pelapor' (Customer)
         $role = 'pelapor';
 
-        // 4. Cek apakah email sudah terdaftar
         $cek_email = mysqli_query($conn, "SELECT email FROM users WHERE email = '$email'");
         if (mysqli_num_rows($cek_email) > 0) {
             echo "<script>alert('Email sudah digunakan!'); window.location='register.php';</script>";
         } else {
-            // 5. Insert ke database
             $query = "INSERT INTO users (nama, email, password, role) VALUES ('$nama', '$email', '$hashed_password', '$role')";
             
             if (mysqli_query($conn, $query)) {

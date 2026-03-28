@@ -19,7 +19,7 @@ if (!isset($_SESSION['username'])) {
 <div class="app-container">
     <aside class="sidebar">
         <h2 class="logo">🔍 Lost & Found KRL</h2>
-            <ul>
+        <ul>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'panduan.php') ? 'active' : ''; ?>" onclick="location.href='panduan.php'">Panduan Melaporkan</li>
@@ -29,7 +29,6 @@ if (!isset($_SESSION['username'])) {
 
     <main class="main-content">
         <div class="scroll-area">
-            
             <div class="content-header">
                 <div class="user-info">
                     <span>Selamat melaporkan, <strong><?php echo $_SESSION['username']; ?></strong></span>
@@ -39,12 +38,12 @@ if (!isset($_SESSION['username'])) {
             <div class="form-card">
                 <div class="form-header">
                     <h2>Laporan Kehilangan</h2>
-                    <p>Isi formulir berikut untuk melaporkan barang yang hilang di area KRL.</p>
+                    <p>Isi formulir untuk melaporkan barang hilang di area KRL.</p>
                 </div>
 
                 <form action="proses_lapor.php" method="POST" enctype="multipart/form-data">
                     <div class="input-group">
-                        <label>Jenis Barang yang Hilang</label>
+                        <label>Jenis Barang</label>
                         <input type="text" name="jenis_barang" placeholder="Contoh: Dompet, HP, Tas..." required>
                     </div>
 
@@ -52,10 +51,8 @@ if (!isset($_SESSION['username'])) {
                         <label>Lokasi Kehilangan</label>
                         <select name="lokasi" required>
                             <option value="">-- Pilih Lokasi --</option>
-                            <option>Stasiun Sudirman</option>
-                            <option>Stasiun Manggarai</option>
-                            <option>Stasiun Tanah Abang</option>
-                            <option>Stasiun Bekasi</option>
+                            <option>Stasiun Serpong</option>
+                            <option>Stasiun Tangerang</option>
                             <option>Stasiun Bogor</option>
                         </select>
                     </div>
@@ -67,26 +64,32 @@ if (!isset($_SESSION['username'])) {
 
                     <div class="input-group">
                         <label>Deskripsi Barang</label>
-                        <textarea name="deskripsi" placeholder="Contoh: Dompet coklat berisi KTP, ATM, uang..." required></textarea>
+                        <textarea name="deskripsi" placeholder="Ciri-ciri khusus barang..." required></textarea>
                     </div>
 
                     <div class="input-group">
                         <label>Foto Barang (Opsional)</label>
                         <div class="upload-area">
-                            <input type="file" name="foto" id="file-upload" hidden>
+                            <input type="file" name="foto_barang" id="file-upload" hidden>
                             <label for="file-upload" class="upload-label">
                                 <span>📸</span>
-                                <p>Klik untuk unggah foto barang</p>
+                                <p id="file-name">Klik untuk unggah foto barang</p>
                             </label>
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-btn">Kirim Laporan Kehilangan</button>
+                    <button type="submit" class="submit-btn">Kirim Laporan</button>
                 </form>
             </div>
         </div>
     </main>
 </div>
+
+<script>
+document.getElementById('file-upload').onchange = function () {
+    document.getElementById('file-name').innerText = "File: " + this.files[0].name;
+};
+</script>
 
 </body>
 </html>

@@ -86,3 +86,12 @@ body {
 .opacity-75 {
   opacity: 0.75;
 }
+
+@keyframes fading {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+.animate-fading {
+    animation: fading 2s infinite;
+}

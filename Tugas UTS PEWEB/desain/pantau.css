@@ -1,0 +1,101 @@
+/* Container Utama */
+.status-container {
+  background-color: #f4f7fe;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+/* Card Laporan */
+.status-card {
+  border: none;
+  border-radius: 15px;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  background: #ffffff;
+}
+
+.status-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Kotak Ikon */
+.icon-box {
+  width: 55px;
+  height: 55px;
+  background: #f0f4ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+/* Label & Teks */
+.progress-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.report-id {
+  font-size: 0.75rem;
+  color: #adb5bd;
+}
+
+/* Variasi Badge Berdasarkan Status */
+.badge-status {
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Status: mencari */
+.badge-mencari {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+/* Status: cocok (Menunggu Verifikasi) */
+.badge-verifikasi {
+  background-color: #e1f5fe;
+  color: #0288d1;
+  border: 1px solid #b3e5fc;
+}
+
+/* Garis Bawah & Tombol */
+.card-footer-custom {
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* Update kotak ikon agar bisa nampung gambar */
+.icon-box {
+  width: 60px;
+  height: 60px;
+  background: #f0f4ff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  overflow: hidden; /* Agar gambar ga keluar jalur */
+  border: 1px solid #e0e6ed;
+}
+
+/* Style khusus untuk gambar di dalam icon-box */
+.img-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Agar gambar ga gepeng */
+}

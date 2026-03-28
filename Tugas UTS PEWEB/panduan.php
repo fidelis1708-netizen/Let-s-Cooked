@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -23,7 +30,7 @@
 
         <main class="main-content">
             <header class="top-bar">
-                <span class="user-greeting">Selamat melaporkan, <strong>jawa icikiwir</strong></span>
+                <span>Selamat melaporkan, <strong><?php echo $_SESSION['username']; ?></strong></span>
             </header>
 
             <div class="page-header">

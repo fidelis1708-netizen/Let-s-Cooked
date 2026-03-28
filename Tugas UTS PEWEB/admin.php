@@ -2,6 +2,20 @@
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "lostnf");
 
+// Logika Update Status Laporan
+if (isset($_POST['update_status'])) {
+    $id_laporan = $_POST['id_laporan'];
+    $status_baru = $_POST['status_baru'];
+
+    $query_update = "UPDATE laporan_kehilangan SET status_laporan = '$status_baru' WHERE id_laporan = '$id_laporan'";
+    
+    if (mysqli_query($conn, $query_update)) {
+        echo "<script>alert('Status berhasil diperbarui!'); window.location='admin.php';</script>";
+    } else {
+        echo "<script>alert('Gagal memperbarui status');</script>";
+    }
+}
+
 // Logika Hapus Laporan Kehilangan
 if (isset($_GET['hapus_laporan'])) {
     // Mengambil ID dari URL
@@ -150,6 +164,7 @@ if (isset($_POST['submit_simpan'])) {
                                         $sql_laporan = "SELECT l.*, u.nama 
                                                         FROM laporan_kehilangan l 
                                                         JOIN users u ON l.id_pelapor = u.id_user 
+                                                        WHERE l.status_laporan != 'selesai' 
                                                         ORDER BY l.id_laporan DESC";
                                         
                                         $result_laporan = mysqli_query($conn, $sql_laporan);
@@ -167,9 +182,15 @@ if (isset($_POST['submit_simpan'])) {
                                             <td><?php echo htmlspecialchars($row['nama_barang']); ?></td>
                                             <td><?php echo htmlspecialchars($row['lokasi_hilang']); ?></td>
                                             <td>
-                                                <span class="badge <?php echo $badge_class; ?> status-badge">
-                                                    <?php echo ucfirst($status); ?>
-                                                </span>
+                                                <form action="" method="POST" class="d-inline">
+                                                    <input type="hidden" name="id_laporan" value="<?php echo $row['id_laporan']; ?>">
+                                                    <select name="status_baru" class="form-select form-select-sm d-inline-block w-auto" onchange="this.form.submit()">
+                                                        <option value="mencari" <?php if($row['status_laporan'] == 'mencari') echo 'selected'; ?>>Mencari</option>
+                                                        <option value="cocok" <?php if($row['status_laporan'] == 'cocok') echo 'selected'; ?>>Cocok</option>
+                                                        <option value="selesai" <?php if($row['status_laporan'] == 'selesai') echo 'selected'; ?>>Selesai</option>
+                                                    </select>
+                                                    <input type="hidden" name="update_status" value="1">
+                                                </form>
                                             </td>
                                             <td class="text-center">
                                                 <a href="admin.php?hapus_laporan=<?php echo $row['id_laporan']; ?>" 

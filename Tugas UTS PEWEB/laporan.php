@@ -11,7 +11,7 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Kehilangan - Lost & Found KRL</title>
-    <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="desain/sidebar.css">
     <link rel="stylesheet" href="desain/laporan.css">
 </head>
 <body>
@@ -22,7 +22,7 @@ if (!isset($_SESSION['username'])) {
             <ul>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
-            <li onclick="location.href='panduan.php'">Panduan Melaporkan</li>
+            <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'panduan.php') ? 'active' : ''; ?>" onclick="location.href='panduan.php'">Panduan Melaporkan</li>
             <li onclick="location.href='profil.php'">Profil</li>
         </ul>
     </aside>

@@ -42,36 +42,48 @@ $result = mysqli_query($conn, $query); //
     <p class="text-muted mb-4">Laporan yang sedang dalam tahap verifikasi oleh petugas.</p>
 
     <div class="row">
+    <?php if (mysqli_num_rows($result) > 0): ?>
         <?php while($row = mysqli_fetch_assoc($result)): ?>
-        <div class="col-md-6 mb-4">
-            <div class="card status-card shadow-sm">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="icon-box me-3 text-primary">📦</div>
-                        <div>
-                            <h5 class="mb-0 fw-bold"><?= $row['nama_barang']; ?></h5>
-                            <small class="text-muted small">ID Laporan: #LPN-<?= $row['id_laporan']; ?></small>
+            <div class="col-md-6 mb-4">
+                <div class="card status-card shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-box me-3 text-primary">📦</div>
+                            <div>
+                                <h5 class="mb-0 fw-bold"><?= htmlspecialchars($row['nama_barang']); ?></h5>
+                                <small class="text-muted small">ID Laporan: #LPN-<?= $row['id_laporan']; ?></small>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="progress-label d-block mb-1">Status Saat Ini:</label>
-                        <span class="badge badge-proses p-2 px-3 rounded-pill">
-                             🕒 Sedang Dicocokkan oleh Petugas
-                        </span>
-                    </div>
+                        
+                        <div class="mb-3">
+                            <label class="progress-label d-block mb-1">Status Saat Ini:</label>
+                            <span class="badge badge-proses p-2 px-3 rounded-pill">
+                                 🕒 Sedang Dicocokkan oleh Petugas
+                            </span>
+                        </div>
 
-                    <p class="text-secondary small mb-3"><?= $row['deskripsi_ciri_khusus']; ?></p>
-                    
-                    <div class="border-top pt-3 d-flex justify-content-between align-items-center">
-                        <span class="text-muted small">Dilaporkan pada: <?= date('d M Y', strtotime($row['tanggal_hilang'])); ?></span>
-                        <a href="#" class="btn btn-sm btn-primary rounded-pill px-3">Detail</a>
+                        <p class="text-secondary small mb-3"><?= htmlspecialchars($row['deskripsi_ciri_khusus']); ?></p>
+                        
+                        <div class="border-top pt-3 d-flex justify-content-between align-items-center">
+                            <span class="text-muted small">Dilaporkan pada: <?= date('d M Y', strtotime($row['tanggal_hilang'])); ?></span>
+                            <a href="#" class="btn btn-sm btn-primary rounded-pill px-3">Detail</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         <?php endwhile; ?>
-    </div>
+
+    <?php else: ?>
+        <div class="col-12 text-center py-5">
+            <div class="mb-3" style="font-size: 50px;">📄</div>
+            <h4 class="fw-bold">Belum Ada Laporan Aktif</h4>
+            <p class="text-muted">Kamu tidak bisa memantau status karena belum membuat laporan kehilangan.</p>
+            <a href="laporan.php" class="btn btn-primary rounded-pill px-4 mt-2">
+                Buat Laporan Sekarang
+            </a>
+        </div>
+    <?php endif; ?>
+</div>
 </div>
 
 </body>

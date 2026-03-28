@@ -19,10 +19,10 @@ if (!isset($_SESSION['username'])) {
 <div class="app-container">
     <aside class="sidebar">
         <h2 class="logo">🔍 Lost & Found KRL</h2>
-        <ul>
+            <ul>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
             <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
-            <li onclick="location.href='panduan.php'">Panduan Melaporkan</li>
+            <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'panduan.php') ? 'active' : ''; ?>" onclick="location.href='panduan.php'">Panduan Melaporkan</li>
             <li onclick="location.href='profil.php'">Profil</li>
         </ul>
     </aside>
@@ -55,8 +55,10 @@ if (!isset($_SESSION['username'])) {
                 <?php
                 include 'koneksi.php';
                 $id_pelapor = $_SESSION['id_user']; 
-
-                $sql = "SELECT * FROM laporan_kehilangan WHERE id_pelapor = '$id_pelapor' ORDER BY id_laporan DESC";
+                $sql = "SELECT * FROM laporan_kehilangan 
+                WHERE id_pelapor = '$id_pelapor' 
+                AND (status_laporan != 'selesai' OR (status_laporan = 'selesai' AND tanggal_hilang >= DATE_SUB(NOW(), INTERVAL 1 MINUTE))) 
+                ORDER BY id_laporan DESC";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result && mysqli_num_rows($result) > 0) {
@@ -87,6 +89,5 @@ if (!isset($_SESSION['username'])) {
         </footer>
     </main>
 </div>
-jawa hitam
 </body>
 </html>

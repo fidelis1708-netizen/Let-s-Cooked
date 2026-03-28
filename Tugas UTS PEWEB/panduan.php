@@ -12,14 +12,14 @@
 
     <div class="layout-wrapper">
         <aside class="sidebar">
-            <h2 class="logo-title">🔍 Lost & Found KRL</h2>
-            <nav class="sidebar-menu">
-                <a href="home.php">Dashboard</a>
-                <a href="laporan.php">Laporkan Kehilangan</a>
-                <a href="panduan.html" class="active">Panduan Melaporkan</a>
-                <a href="#">Profil</a>
-            </nav>
-        </aside>
+        <h2 class="logo">🔍 Lost & Found KRL</h2>
+            <ul>
+            <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
+            <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
+            <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'panduan.php') ? 'active' : ''; ?>" onclick="location.href='panduan.php'">Panduan Melaporkan</li>
+            <li onclick="location.href='profil.php'">Profil</li>
+        </ul>
+    </aside>
 
         <main class="main-content">
             <header class="top-bar">

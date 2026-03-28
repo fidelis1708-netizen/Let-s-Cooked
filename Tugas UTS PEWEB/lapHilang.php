@@ -1,32 +1,17 @@
 <?php
 session_start();
-// 1. Koneksi
+// 1. Koneksi Database
 $conn = mysqli_connect("localhost", "root", "", "lostnf");
 
-// 2. Logika Update Status dengan Session Timer
-if (isset($_POST['update_status'])) {
-    $id_laporan = $_POST['id_laporan'];
-    $status_baru = $_POST['status_baru'];
-
-    $query_update = "UPDATE laporan_kehilangan SET status_laporan = '$status_baru' WHERE id_laporan = '$id_laporan'";
-    
-    if (mysqli_query($conn, $query_update)) {
-        if ($status_baru == 'selesai') {
-            // Catat waktu selesai di session
-            $_SESSION['timer_selesai'][$id_laporan] = time();
-        } else {
-            // Jika dibatalkan dari 'selesai', hapus timer
-            unset($_SESSION['timer_selesai'][$id_laporan]);
-        }
-        echo "<script>window.location='admin.php';</script>";
-    }
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
 
-// 3. Logika Hapus
-if (isset($_GET['hapus_laporan'])) {
-    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_laporan']);
+// 2. Logika Hapus Permanen (Jika diperlukan)
+if (isset($_GET['hapus_arsip'])) {
+    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_arsip']);
     mysqli_query($conn, "DELETE FROM laporan_kehilangan WHERE id_laporan = '$id_hapus'");
-    echo "<script>window.location='admin.php';</script>";
+    echo "<script>alert('Arsip laporan dihapus permanen!'); window.location='riwayat_selesai.php';</script>";
 }
 ?>
 
@@ -34,103 +19,120 @@ if (isset($_GET['hapus_laporan'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Lost & Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Laporan Selesai - Admin</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="desain/admin.css">
-    <link rel="stylesheet" href="desain/sidebar.css"> <style>
-        /* Desain Tambahan untuk Isi yang Lebih Bagus */
-        .card-custom { border: none; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .table thead th { background-color: #f8f9fa; border-bottom: 2px solid #dee2e6; color: #6c757d; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
-        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        .timer-info { font-size: 0.7rem; color: #e74c3c; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        .form-select-custom { border-radius: 8px; border: 1px solid #ced4da; transition: 0.3s; }
-        .form-select-custom:focus { border-color: #3498db; box-shadow: 0 0 0 0.2rem rgba(52,152,219,0.25); }
+    
+    <link rel="stylesheet" href="desain/sidebar.css">
+    <style>
+        body { background-color: #f4f7f6; }
+        .main-content { margin-left: 250px; padding: 40px; } /* Sesuaikan margin dengan lebar sidebar kamu */
+        .card-arsip { border: none; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .card-arsip:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .badge-selesai { background-color: #2ecc71; color: white; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; }
+        .detail-label { font-size: 0.75rem; color: #95a5a6; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; }
+        .detail-value { font-size: 0.95rem; color: #2c3e50; margin-bottom: 15px; }
+        .divider { border-bottom: 1px dashed #eee; margin-bottom: 15px; }
     </style>
 </head>
 <body>
+
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 d-none d-md-block sidebar p-4 position-fixed">
-                 </div>
+            <div class="col-md-2 sidebar p-4 position-fixed">
+                <div class="text-center mb-5 text-white">
+                    <i class="fa-solid fa-train-subway fa-3x mb-2"></i>
+                    <h5 class="fw-bold">CommuterLink</h5>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-white-50" href="admin.php"><i class="fa-solid fa-house me-2"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active text-white" href="riwayat_selesai.php"><i class="fa-solid fa-clipboard-check me-2"></i> Laporan Selesai</a>
+                    </li>
+                    <hr class="text-white-50">
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="logout.php"><i class="fa-solid fa-power-off me-2"></i> Keluar</a>
+                    </li>
+                </ul>
+            </div>
 
             <div class="col-md-10 offset-md-2 p-5">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold"><i class="fa-solid fa-clipboard-list text-primary me-2"></i> Laporan Kehilangan Aktif</h4>
-                    <span class="badge bg-light text-dark border p-2"><i class="fa-regular fa-calendar me-1"></i> <?= date('d M Y') ?></span>
+                <div class="mb-5">
+                    <h3 class="fw-bold text-dark">Arsip Laporan Selesai</h3>
+                    <p class="text-muted">Daftar lengkap laporan yang sudah berhasil diselesaikan/dikembalikan ke pemilik.</p>
                 </div>
 
-                <div class="card card-custom p-4">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Info Pelapor</th>
-                                    <th>Detail Barang</th>
-                                    <th>Status Laporan</th>
-                                    <th class="text-center">Tindakan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $sql = "SELECT l.*, u.nama, u.email FROM laporan_kehilangan l 
-                                        JOIN users u ON l.id_pelapor = u.id_user 
-                                        ORDER BY l.id_laporan DESC";
-                                $res = mysqli_query($conn, $sql);
+                <div class="row">
+                    <?php
+                    // Query mengambil data lengkap yang statusnya 'selesai'
+                    $sql_selesai = "SELECT l.*, u.nama, u.email 
+                                    FROM laporan_kehilangan l 
+                                    JOIN users u ON l.id_pelapor = u.id_user 
+                                    WHERE l.status_laporan = 'selesai' 
+                                    ORDER BY l.id_laporan DESC";
+                    
+                    $result = mysqli_query($conn, $sql_selesai);
 
-                                while ($row = mysqli_fetch_assoc($res)) :
-                                    $id = $row['id_laporan'];
-                                    
-                                    // Logika PHP 1 Menit
-                                    if ($row['status_laporan'] == 'selesai') {
-                                        if (isset($_SESSION['timer_selesai'][$id])) {
-                                            if (time() - $_SESSION['timer_selesai'][$id] > 60) {
-                                                continue; // Melewati baris ini (menghilangkan)
-                                            }
-                                        } else {
-                                            continue; // Jika sudah selesai di DB tapi ga ada di session, anggap data lama & sembunyikan
-                                        }
-                                    }
-                                ?>
-                                <tr>
-                                    <td>
-                                        <div class="fw-bold"><?= htmlspecialchars($row['nama']) ?></div>
-                                        <div class="small text-muted"><?= htmlspecialchars($row['email']) ?></div>
-                                    </td>
-                                    <td>
-                                        <div class="text-primary fw-semibold"><?= htmlspecialchars($row['nama_barang']) ?></div>
-                                        <div class="small"><i class="fa-solid fa-location-dot me-1 text-danger"></i> <?= htmlspecialchars($row['lokasi_hilang']) ?></div>
-                                    </td>
-                                    <td>
-                                        <form action="" method="POST" class="d-flex align-items-center gap-2">
-                                            <input type="hidden" name="id_laporan" value="<?= $id ?>">
-                                            <select name="status_baru" class="form-select form-select-sm form-select-custom w-auto" onchange="this.form.submit()">
-                                                <option value="mencari" <?= ($row['status_laporan'] == 'mencari' ? 'selected' : '') ?>>Mencari</option>
-                                                <option value="cocok" <?= ($row['status_laporan'] == 'cocok' ? 'selected' : '') ?>>Cocok</option>
-                                                <option value="selesai" <?= ($row['status_laporan'] == 'selesai' ? 'selected' : '') ?>>Selesai</option>
-                                            </select>
-                                            <input type="hidden" name="update_status" value="1">
-                                            
-                                            <?php if($row['status_laporan'] == 'selesai'): ?>
-                                                <span class="timer-info fw-bold"><i class="fa-solid fa-clock-rotate-left"></i> 1m</span>
-                                            <?php endif; ?>
-                                        </form>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="admin.php?hapus_laporan=<?= $id ?>" class="btn btn-sm btn-outline-danger border-0" onclick="return confirm('Hapus laporan ini?')">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php endwhile; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                        <div class="col-md-6 mb-4">
+                            <div class="card card-arsip p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h5 class="fw-bold text-primary mb-1"><?= htmlspecialchars($row['nama_barang']) ?></h5>
+                                        <span class="badge-selesai"><i class="fa-solid fa-check-double me-1"></i> Telah Kembali</span>
+                                    </div>
+                                    <a href="riwayat_selesai.php?hapus_arsip=<?= $row['id_laporan'] ?>" 
+                                       class="text-muted" onclick="return confirm('Hapus dari arsip?')">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="detail-label">Nama Pelapor</div>
+                                        <div class="detail-value fw-bold"><?= htmlspecialchars($row['nama']) ?></div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="detail-label">Tanggal Hilang</div>
+                                        <div class="detail-value"><?= date('d F Y', strtotime($row['tanggal_hilang'])) ?></div>
+                                    </div>
+                                </div>
+
+                                <div class="divider"></div>
+
+                                <div class="detail-label">Lokasi Kejadian</div>
+                                <div class="detail-value"><i class="fa-solid fa-location-dot text-danger me-1"></i> <?= htmlspecialchars($row['lokasi_hilang']) ?></div>
+
+                                <div class="detail-label">Deskripsi Barang</div>
+                                <div class="detail-value text-muted italic">"<?= htmlspecialchars($row['deskripsi_barang'] ?? 'Tidak ada deskripsi tambahan') ?>"</div>
+                                
+                                <div class="divider"></div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-muted">Kontak: <?= htmlspecialchars($row['email']) ?></small>
+                                    <small class="text-muted">ID: #L-<?= $row['id_laporan'] ?></small>
+                                </div>
+                            </div>
+                        </div>
+                    <?php 
+                        } 
+                    } else {
+                        echo '<div class="col-12 text-center py-5">
+                                <i class="fa-solid fa-folder-open fa-3x text-light mb-3"></i>
+                                <p class="text-muted">Belum ada data laporan yang selesai.</p>
+                              </div>';
+                    }
+                    ?>
                 </div>
-                <p class="small text-muted mt-3 italic">* Laporan dengan status <b>Selesai</b> akan otomatis berpindah ke arsip setelah 1 menit jika halaman di-refresh.</p>
             </div>
         </div>
     </div>
+
 </body>
 </html>

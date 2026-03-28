@@ -1,3 +1,48 @@
+<?php
+// Koneksi ke database
+$conn = mysqli_connect("localhost", "root", "", "lostnf");
+
+// Logika Hapus Laporan Kehilangan
+if (isset($_GET['hapus_laporan'])) {
+    // Mengambil ID dari URL
+    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_laporan']);
+    
+    // Query hapus berdasarkan id_laporan
+    $query_hapus = "DELETE FROM laporan_kehilangan WHERE id_laporan = '$id_hapus'";
+    
+    if (mysqli_query($conn, $query_hapus)) {
+        echo "<script>
+                alert('Laporan berhasil dihapus!');
+                window.location.href='admin.php';
+              </script>";
+    } else {
+        echo "<script>alert('Gagal menghapus: " . mysqli_error($conn) . "');</script>";
+    }
+}
+
+// Cek jika tombol simpan ditekan
+if (isset($_POST['submit_simpan'])) {
+    $nama_barang = $_POST['nama_barang'];
+    $lokasi = $_POST['lokasi'];
+    $tanggal = $_POST['tanggal'];
+    $deskripsi = $_POST['deskripsi'];
+    
+    // Karena di SQL anda id_petugas adalah FK, kita gunakan ID 1 sebagai contoh
+    // Pastikan di tabel users sudah ada id_user = 1
+    $id_petugas = 1; 
+
+    $query = "INSERT INTO barang_temuan (nama_barang, deskripsi, lokasi_temuan, tanggal_temuan, id_petugas, status) 
+              VALUES ('$nama_barang', '$deskripsi', '$lokasi', '$tanggal', '$id_petugas', 'tersedia')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "<script>alert('Data berhasil disimpan!'); window.location='admin.php';</script>";
+    } else {
+        echo "Gagal: " . mysqli_error($conn);
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -56,27 +101,28 @@
                         <div class="card p-4">
                             <h5 class="fw-bold mb-3"><i class="fa-solid fa-plus-circle text-primary me-2"></i>Input
                                 Barang Baru</h5>
-                            <form action="proses_input.php" method="POST">
+
+                            <form action="" method="POST"> 
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold">Nama Barang</label>
-                                    <input type="text" name="nama_barang" class="form-control"
-                                        placeholder="Misal: Dompet Kulit Cokelat">
+                                    <input type="text" name="nama_barang" class="form-control" placeholder="Misal: Dompet Kulit Cokelat" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold">Lokasi Ditemukan</label>
-                                    <input type="text" name="lokasi" class="form-control" placeholder="Misal: Peron 2">
+                                    <input type="text" name="lokasi" class="form-control" placeholder="Misal: Peron 2" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold">Tanggal</label>
-                                    <input type="date" name="tanggal" class="form-control">
+                                    <input type="date" name="tanggal" class="form-control" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold">Deskripsi Singkat</label>
-                                    <textarea name="deskripsi" class="form-control" rows="3"
-                                        placeholder="Ciri-ciri khusus barang..."></textarea>
+                                    <textarea name="deskripsi" class="form-control" rows="3" placeholder="Ciri-ciri khusus barang..."></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 py-2 mt-2">Simpan ke
-                                    Database</button>
+                                
+                                <button type="submit" name="submit_simpan" class="btn btn-primary w-100 py-2 mt-2">
+                                    Simpan ke Database
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -86,7 +132,6 @@
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <h5 class="fw-bold"><i class="fa-solid fa-list-check text-primary me-2"></i>Laporan
                                     Kehilangan</h5>
-                                <button class="btn btn-sm btn-outline-secondary">Lihat Semua</button>
                             </div>
                             <div class="table-responsive">
                                 <table class="table align-middle">
@@ -100,19 +145,43 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                        // Query untuk mengambil data laporan kehilangan dan nama pelapor dari tabel users
+                                        $sql_laporan = "SELECT l.*, u.nama 
+                                                        FROM laporan_kehilangan l 
+                                                        JOIN users u ON l.id_pelapor = u.id_user 
+                                                        ORDER BY l.id_laporan DESC";
+                                        
+                                        $result_laporan = mysqli_query($conn, $sql_laporan);
+
+                                        // Loop untuk menampilkan setiap baris data
+                                        while ($row = mysqli_fetch_assoc($result_laporan)) {
+                                            // Menentukan warna badge berdasarkan status
+                                            $status = $row['status_laporan'];
+                                            $badge_class = 'bg-warning text-dark'; // Default untuk 'mencari'
+                                            if ($status == 'cocok') $badge_class = 'bg-info text-white';
+                                            if ($status == 'selesai') $badge_class = 'bg-success text-white';
+                                        ?>
                                         <tr>
-                                            <td><strong>Darren</strong></td>
-                                            <td>iPhone 13 Pro</td>
-                                            <td>Gerbong 5</td>
-                                            <td><span class="badge bg-warning text-dark status-badge">Mencari</span>
+                                            <td><strong><?php echo htmlspecialchars($row['nama']); ?></strong></td>
+                                            <td><?php echo htmlspecialchars($row['nama_barang']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['lokasi_hilang']); ?></td>
+                                            <td>
+                                                <span class="badge <?php echo $badge_class; ?> status-badge">
+                                                    <?php echo ucfirst($status); ?>
+                                                </span>
                                             </td>
                                             <td class="text-center">
-                                                <button class="btn btn-sm btn-light border text-primary me-1"><i
-                                                        class="fa-solid fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-light border text-danger"><i
-                                                        class="fa-solid fa-trash"></i></button>
+                                                <a href="admin.php?hapus_laporan=<?php echo $row['id_laporan']; ?>" 
+                                                class="btn btn-sm btn-light border text-danger" 
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus laporan dari <?php echo $row['nama']; ?>?')">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </a>
                                             </td>
                                         </tr>
+                                        <?php 
+                                        } // Akhir while 
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

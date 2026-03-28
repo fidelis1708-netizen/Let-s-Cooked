@@ -1,0 +1,192 @@
+/* --- Reset & Layout Dasar --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5; /* Warna background abu-abu terang */
+}
+
+/* Membagi layar jadi kiri (sidebar) dan kanan (konten) */
+.layout-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+    width: 260px;
+    background-color: #3b5dbb; /* Warna biru KRL */
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 12px 15px;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: bold;
+}
+
+/* --- Konten Utama (Sebelah Kanan) --- */
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-bar {
+    text-align: right;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #555;
+}
+
+.page-header {
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.page-header h1 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* --- Profil Container & Card --- */
+.profile-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 0 0 12px 12px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    display: flex;
+    justify-content: center; /* Posisikan card ke tengah */
+}
+
+.profile-card {
+    background-color: #ffffff;
+    border: 1px solid #e4e6eb;
+    border-radius: 15px;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- Foto Profil (Lingkaran Inisial) --- */
+.profile-avatar {
+    background-color: #3b5dbb;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    border: 4px solid #eef2ff;
+}
+
+/* --- Detail Informasi --- */
+.profile-details {
+    width: 100%;
+}
+
+.info-group {
+    margin-bottom: 20px;
+    width: 100%; /* Pastikan form takes full width */
+}
+
+.info-group label {
+    display: block;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    background-color: #f9fafc;
+    border: 1px solid #e4e6eb;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* --- Tombol Edit --- */
+.btn-edit {
+    width: 100%;
+    background-color: #3b5dbb;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.2s;
+}
+
+.btn-edit:hover {
+    background-color: #2a4592;
+}
+
+/* --- Tombol Logout --- */
+.btn-logout {
+    display: block; /* Biar tombolnya full lebar */
+    width: 100%;
+    background-color: transparent; /* Background transparan */
+    color: #dc3545; /* Teks warna merah */
+    border: 2px solid #dc3545; /* Garis pinggir warna merah */
+    text-align: center;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px; /* Jarak dengan tombol Edit Profil */
+    transition: all 0.2s;
+}
+
+/* Efek saat tombol logout disorot mouse (hover) */
+.btn-logout:hover {
+    background-color: #dc3545; /* Background berubah jadi merah */
+    color: white; /* Teks berubah jadi putih */
+}

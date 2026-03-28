@@ -82,6 +82,14 @@ if (isset($_POST['register'])) {
                                 </div>
 
                                 <div class="mb-3">
+                                    <label class="form-label text-muted small">No. Telepon</label>
+                                    <div class="input-group border rounded-3 overflow-hidden">
+                                        <span class="input-group-text bg-transparent border-0"><i class="fa-solid fa-phone text-muted"></i></span>
+                                        <input type="text" name="no_telp" class="form-control border-0 shadow-none" placeholder="Contoh: 08123456789" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
                                     <label class="form-label text-muted small">Password</label>
                                     <div class="input-group border rounded-3 overflow-hidden">
                                         <span class="input-group-text bg-transparent border-0"><i class="fa-solid fa-lock text-muted"></i></span>

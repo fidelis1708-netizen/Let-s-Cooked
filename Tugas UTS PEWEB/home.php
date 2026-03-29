@@ -32,7 +32,7 @@ if (!isset($_SESSION['username'])) {
             <div class="banner">
                 <div class="banner-text">
                     <h1>Selamat datang, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
-                    <p>Temukan atau laporkan barang hilang di area KRL dengan mudah.</p>
+                    <p>Temukan atau laporkan barang hilang di area KRL Nusantara dengan mudah.</p>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@ if (!isset($_SESSION['username'])) {
                 $id_pelapor = $_SESSION['id_user']; 
                 $sql = "SELECT * FROM laporan_kehilangan 
                 WHERE id_pelapor = '$id_pelapor' 
-                AND (status_laporan != 'selesai' OR (status_laporan = 'selesai' AND tanggal_hilang >= DATE_SUB(NOW(), INTERVAL 1 MINUTE))) 
+                AND (status_laporan != 'selesai' OR (status_laporan = 'selesai' AND tanggal_hilang >= DATE_SUB(NOW(), INTERVAL 5 MINUTE))) 
                 ORDER BY id_laporan DESC";
                 $result = mysqli_query($conn, $sql);
 

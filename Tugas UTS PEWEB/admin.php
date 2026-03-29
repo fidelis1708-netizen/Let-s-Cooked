@@ -1,5 +1,6 @@
 <?php
 // Koneksi ke database
+session_start();
 $conn = mysqli_connect("localhost", "root", "", "lostnf");
 
 // Logika Update Status Laporan (Tetap sama)
@@ -67,7 +68,7 @@ if (isset($_POST['submit_simpan'])) {
             <div class="col-md-2 d-none d-md-block sidebar p-4 position-fixed">
                 <div class="text-center mb-5">
                     <i class="fa-solid fa-train-subway fa-3x mb-2 text-white"></i>
-                    <h5 class="fw-bold">CommuterLink</h5>
+                    <h5 class="fw-bold">CommuterLink Nusantara</h5>
                     <small class="opacity-75">Admin Panel</small>
                 </div>
                 <ul class="nav flex-column">
@@ -94,8 +95,8 @@ if (isset($_POST['submit_simpan'])) {
                         <p class="text-muted">Kelola barang temuan dan laporan penumpang hari ini.</p>
                     </div>
                     <div class="text-end">
-                        <span class="fw-bold d-block">Admin Petugas</span>
-                        <small class="text-primary">Stasiun Gambir</small>
+                        <span class="fw-bold d-block">Selamat datang, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                        <small class="text-primary">Selamat bertugas</small>
                     </div>
                 </div>
 

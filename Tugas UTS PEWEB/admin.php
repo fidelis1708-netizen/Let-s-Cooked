@@ -76,28 +76,37 @@ if (isset($_POST['submit_simpan'])) {
 
     <div class="container-fluid">
         <div class="row">
-            <div class="sidebar d-none d-md-block col-md-2 p-0">
-                <div class="text-center mb-5 text-white p-4">
-                    <i class="fa-solid fa-train-subway fa-3x mb-2"></i>
-                    <h5 class="fw-bold">CommuterLink</h5>
-                    <small class="opacity-75 text-uppercase" style="font-size: 0.7rem;">Nusantara Admin</small>
-                </div>
-                <ul class="nav flex-column px-3">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="admin.php"><i class="fa-solid fa-house me-2"></i> Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="barang_temuan.php"><i class="fa-solid fa-box-open me-2"></i> Barang Temuan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="laporan_selesai.php"><i class="fa-solid fa-clipboard-check me-2"></i> Laporan Selesai</a>
-                    </li>
-                    <hr class="text-white-50 my-4">
-                    <li class="nav-item">
-                        <a class="nav-link text-danger fw-bold" href="logout.php"><i class="fa-solid fa-power-off me-2"></i> Keluar</a>
-                    </li>
-                </ul>
+            <div class="sidebar d-none d-md-block">
+            <div class="text-center mb-5 text-white">
+                <i class="fa-solid fa-train-subway fa-3x mb-2"></i>
+                <h5 class="fw-bold">CommuterLink</h5>
+                <small class="opacity-75 text-uppercase" style="font-size: 0.7rem;">Nusantara Admin</small>
             </div>
+
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'admin.php') ? 'active' : '' ?>" href="admin.php">
+                        <i class="fa-solid fa-house me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="#">
+                        <i class="fa-solid fa-box-open me-2"></i> Barang Temuan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'laporan_selesai.php') ? 'active' : '' ?>" href="laporan_selesai.php">
+                        <i class="fa-solid fa-clipboard-check me-2"></i> Laporan Selesai
+                    </a>
+                </li>
+                <hr class="text-white-50 my-4">
+                <li class="nav-item">
+                    <a class="nav-link text-danger fw-bold" href="logout.php">
+                        <i class="fa-solid fa-power-off me-2"></i> Keluar
+                    </a>
+                </li>
+            </ul>
+        </div>
 
             <div class="col-md-10 offset-md-2 p-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">

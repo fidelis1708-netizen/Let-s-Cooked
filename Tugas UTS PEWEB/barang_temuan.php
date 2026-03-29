@@ -1,18 +1,36 @@
 <?php
+// 1. KONEKSI & SESSION
 session_start();
-include 'koneksi.php'; // Pastikan file koneksi database sudah benar
+$conn = mysqli_connect("localhost", "root", "", "lostnf");
 
-// Proteksi Halaman: Hanya admin/petugas yang bisa masuk
-if (!isset($_SESSION['id_user']) || $_SESSION['role'] !== 'petugas') {
+// Proteksi halaman admin
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
 
-// Logika Hapus Permanen dari Arsip
-if (isset($_GET['hapus_arsip'])) {
-    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_arsip']);
-    mysqli_query($conn, "DELETE FROM laporan_kehilangan WHERE id_laporan = '$id_hapus'");
-    echo "<script>alert('Arsip laporan dihapus permanen!'); window.location='riwayat_selesai.php';</script>";
+// 2. LOGIKA HAPUS BARANG (Sekaligus Hapus File Foto)
+if (isset($_GET['hapus_barang'])) {
+    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_barang']);
+    
+    // Ambil nama file foto dulu
+    $sql_foto = "SELECT foto_barang FROM barang_temuan WHERE id_barang = '$id_hapus'";
+    $res_foto = mysqli_query($conn, $sql_foto);
+    $data_foto = mysqli_fetch_assoc($res_foto);
+    
+    if ($data_foto && !empty($data_foto['foto_barang'])) {
+        $path_file = "uploads/" . $data_foto['foto_barang'];
+        if (file_exists($path_file)) {
+            unlink($path_file); // Hapus foto dari folder uploads
+        }
+    }
+
+    // Hapus data dari database
+    $query_hapus = "DELETE FROM barang_temuan WHERE id_barang = '$id_hapus'";
+    if (mysqli_query($conn, $query_hapus)) {
+        echo "<script>alert('Barang Berhasil Dihapus!'); window.location='barang_temuan.php';</script>";
+        exit;
+    }
 }
 ?>
 
@@ -21,41 +39,29 @@ if (isset($_GET['hapus_arsip'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Laporan Selesai - Admin</title>
-    
+    <title>Katalog Barang Temuan - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <link rel="stylesheet" href="desain/sidebar_admin.css">
-    <link rel="stylesheet" href="desain/laporan_hilang.css">
-    
+    <link rel="stylesheet" href="desain/admin.css">
     <style>
-        /* Tambahan biar gambar di card rapi */
-        .img-arsip {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid #eee;
-        }
-        /* Pastikan sidebar fix dan konten tidak ketimpa */
-        .sidebar-fixed {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 250px; /* Sesuaikan dengan lebar sidebar lu */
-            z-index: 1000;
-        }
-        .main-content {
-            margin-left: 250px; /* Harus sama dengan lebar sidebar */
-        }
+        body { background-color: #f4f7f6; }
+        .sidebar { background: #2c3e50; min-height: 100vh; position: fixed; color: white; }
+        .nav-link { color: rgba(255,255,255,0.7); border-radius: 8px; margin-bottom: 5px; }
+        .nav-link:hover, .nav-link.active { background: #34495e; color: white; }
+        .card-barang { border: none; border-radius: 12px; transition: 0.3s; }
+        .card-barang:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .img-box { height: 200px; overflow: hidden; border-radius: 12px 12px 0 0; background: #ddd; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .badge-status { position: absolute; top: 10px; right: 10px; font-size: 0.7rem; }
+        .main-content { margin-left: 16.66667%; padding: 40px; }
     </style>
 </head>
 <body>
 
-    <div class="container-fluid p-0">
-        <div class="sidebar sidebar-fixed d-none d-md-block p-4">
+<div class="container-fluid">
+    <div class="row">
+            <div class="sidebar d-none d-md-block">
             <div class="text-center mb-5 text-white">
                 <i class="fa-solid fa-train-subway fa-3x mb-2"></i>
                 <h5 class="fw-bold">CommuterLink</h5>
@@ -69,18 +75,13 @@ if (isset($_GET['hapus_arsip'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="barang_temuan.php">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="#">
                         <i class="fa-solid fa-box-open me-2"></i> Barang Temuan
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'laporan_selesai.php') ? 'active' : '' ?>" href="laporan_selesai.php">
                         <i class="fa-solid fa-clipboard-check me-2"></i> Laporan Selesai
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="riwayat_selesai.php">
-                        <i class="fa-solid fa-clock-rotate-left me-2"></i> Riwayat Selesai
                     </a>
                 </li>
                 <hr class="text-white-50 my-4">
@@ -92,38 +93,90 @@ if (isset($_GET['hapus_arsip'])) {
             </ul>
         </div>
 
-        <div class="main-content p-5">
-            <div class="mb-5">
-                <h3 class="fw-bold text-dark">Arsip Laporan Selesai</h3>
-                <p class="text-muted">Daftar lengkap laporan yang sudah berhasil diselesaikan (status: selesai).</p>
+        <div class="col-md-10 main-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold m-0">📦 Katalog Barang Temuan</h3>
+                    <p class="text-muted">Manajemen inventaris barang temuan di stasiun.</p>
+                </div>
+                <a href="admin.php" class="btn btn-primary px-4 rounded-pill shadow-sm"><i class="fa-solid fa-plus me-2"></i>Input Baru</a>
             </div>
 
             <div class="row">
                 <?php
-                // Ambil data laporan yang sudah selesai
-                $sql_selesai = "SELECT l.*, u.nama, u.email 
-                                FROM laporan_kehilangan l 
-                                JOIN users u ON l.id_pelapor = u.id_user 
-                                WHERE l.status_laporan = 'selesai' 
-                                ORDER BY l.id_laporan DESC";
+                // Query ambil semua data
+                $result = mysqli_query($conn, "SELECT * FROM barang_temuan ORDER BY id_barang DESC");
                 
-                $result = mysqli_query($conn, $sql_selesai);
-
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        
-                        // LOGIKA ANTI-GAGAL GAMBAR
-                        $path_gambar = "";
-                        if (!empty($row['gambar'])) {
-                            // Cek apakah string di database sudah mengandung kata "uploads/"
-                            if (strpos($row['gambar'], 'uploads/') !== false) {
-                                $path_gambar = $row['gambar']; // Udah ada foldernya, biarin aja
-                            } else {
-                                $path_gambar = 'uploads/' . $row['gambar']; // Belum ada, tambahin folder uploads/
-                            }
-                        }
+                        // Tentukan warna badge berdasarkan status di DB lu
+                        $bg = 'bg-secondary';
+                        if($row['status'] == 'tersedia') $bg = 'bg-success';
+                        if($row['status'] == 'diproses') $bg = 'bg-warning text-dark';
                 ?>
-                    <div class="col-md-6 mb-4">
-                        <div class="card card-arsip p-4 shadow-sm border-0" style="border-radius: 15px;">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div class="d-flex gap-3 align
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card card-barang shadow-sm h-100">
+                            <span class="badge <?= $bg ?> badge-status text-uppercase"><?= $row['status'] ?></span>
+                            
+                            <div class="img-box">
+                                <?php if($row['foto_barang']): ?>
+                                    <img src="uploads/<?= $row['foto_barang'] ?>" alt="Foto">
+                                <?php else: ?>
+                                    <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image">
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="card-body">
+                                <h6 class="fw-bold text-truncate mb-1"><?= htmlspecialchars($row['nama_barang']) ?></h6>
+                                <p class="small text-muted mb-2">
+                                    <i class="fa-solid fa-location-dot text-danger me-1"></i> <?= htmlspecialchars($row['lokasi_temuan']) ?>
+                                </p>
+                                <p class="card-text small text-secondary text-truncate-2" style="height: 40px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                    <?= htmlspecialchars($row['deskripsi']) ?>
+                                </p>
+                            </div>
+
+                            <div class="card-footer bg-white border-0 d-flex gap-2 pb-3">
+                                <button class="btn btn-sm btn-outline-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#detailModal<?= $row['id_barang'] ?>">Detail</button>
+                                <a href="barang_temuan.php?hapus_barang=<?= $row['id_barang'] ?>" class="btn btn-sm btn-light text-danger" onclick="return confirm('Hapus barang ini?')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="detailModal<?= $row['id_barang'] ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content border-0 shadow">
+                                <div class="modal-header">
+                                    <h5 class="modal-title fw-bold">Rincian Barang</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="uploads/<?= $row['foto_barang'] ?>" class="w-100 rounded mb-3 shadow-sm">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between"><strong>Nama Barang:</strong> <span><?= $row['nama_barang'] ?></span></li>
+                                        <li class="list-group-item d-flex justify-content-between"><strong>Stasiun:</strong> <span><?= $row['lokasi_temuan'] ?></span></li>
+                                        <li class="list-group-item d-flex justify-content-between"><strong>Titik Peron:</strong> <span><?= $row['lokasi_peron'] ?></span></li>
+                                        <li class="list-group-item d-flex justify-content-between"><strong>Tanggal:</strong> <span><?= date('d M Y', strtotime($row['tanggal_temuan'])) ?></span></li>
+                                        <li class="list-group-item"><strong>Deskripsi:</strong><br><span class="text-muted"><?= nl2br($row['deskripsi']) ?></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php 
+                    } 
+                } else {
+                    echo "<div class='col-12 text-center py-5'><h5 class='text-muted'>Belum ada data barang temuan.</h5></div>";
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -47,7 +47,7 @@ if (isset($_GET['hapus_arsip'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="#">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="barang_temuan.php">
                         <i class="fa-solid fa-box-open me-2"></i> Barang Temuan
                     </a>
                 </li>

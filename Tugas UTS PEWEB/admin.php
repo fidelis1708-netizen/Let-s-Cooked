@@ -45,6 +45,17 @@ if (isset($_POST['submit_simpan'])) {
         } else {
             echo "Gagal database: " . mysqli_error($conn);
         }
+    // Logika Hapus Laporan
+    if (isset($_GET['hapus_laporan'])) {
+        $id_hapus = $_GET['hapus_laporan'];
+        $query_hapus = "DELETE FROM laporan_kehilangan WHERE id_laporan = '$id_hapus'";
+        
+        if (mysqli_query($conn, $query_hapus)) {
+            echo "<script>alert('Laporan berhasil dihapus!'); window.location='admin.php';</script>";
+        } else {
+            echo "Gagal menghapus: " . mysqli_error($conn);
+        }
+    }    
     } else {
         echo "<script>alert('Gagal upload foto. Pastikan folder uploads/ sudah ada!');</script>";
     }
@@ -85,8 +96,8 @@ if (isset($_POST['submit_simpan'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'laporan_hilang.php') ? 'active' : '' ?>" href="laporan_hilang.php">
-                        <i class="fa-solid fa-clipboard-check me-2"></i> Laporan Hilang
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'laporan_selesai.php') ? 'active' : '' ?>" href="laporan_selesai.php">
+                        <i class="fa-solid fa-clipboard-check me-2"></i> Laporan Selesai
                     </a>
                 </li>
                 <hr class="text-white-50 my-4">
@@ -148,7 +159,33 @@ if (isset($_POST['submit_simpan'])) {
                             </form>
                         </div>
                     </div>
+                    <div class="modal fade" id="modalVerif<?= $row['id_laporan'] ?>" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="proses_verifikasi.php" method="POST">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Kirim Undangan Verifikasi</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Anda akan mengirim notifikasi ke <strong><?= $row['nama'] ?></strong> bahwa barang telah ditemukan.</p>
+                                        
+                                        <input type="hidden" name="id_laporan" value="<?= $row['id_laporan'] ?>">
+                                        <input type="hidden" name="id_barang" value="<?= $row['id_barang_cocok'] ?>"> 
 
+                                        <div class="mb-3">
+                                            <label class="form-label">Pesan Instruksi untuk User</label>
+                                            <textarea class="form-control" name="pesan_admin" rows="3" placeholder="Contoh: Silahkan datang ke loket Stasiun Gambir dengan membawa KTP..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" name="kirim_verif" class="btn btn-primary">Kirim ke User</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-lg-8">
                         <div class="card p-4 shadow-sm border-0">
                             <h5 class="fw-bold mb-4"><i class="fa-solid fa-list-check text-primary me-2"></i>Laporan Kehilangan</h5>
@@ -165,8 +202,7 @@ if (isset($_POST['submit_simpan'])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        // Gunakan JOIN ke tabel 'users' atau 'account' sesuai database kamu
+                                    <?php
                                         $sql_laporan = "SELECT l.*, u.nama 
                                                         FROM laporan_kehilangan l 
                                                         JOIN users u ON l.id_pelapor = u.id_user 
@@ -186,16 +222,50 @@ if (isset($_POST['submit_simpan'])) {
                                                     <input type="hidden" name="id_laporan" value="<?= $row['id_laporan']; ?>">
                                                     <select name="status_baru" class="form-select form-select-sm" onchange="this.form.submit()">
                                                         <option value="mencari" <?= ($row['status_laporan'] == 'mencari') ? 'selected' : ''; ?>>Mencari</option>
-                                                        <option value="cocok" <?= ($row['status_laporan'] == 'cocok') ? 'selected' : ''; ?>>Cocok</option>
+                                                        <option value="cocok" <?= ($row['status_laporan'] == 'cocok') ? 'selected' : ''; ?>>Pencocokan</option>
                                                         <option value="selesai" <?= ($row['status_laporan'] == 'selesai') ? 'selected' : ''; ?>>Selesai</option>
                                                     </select>
                                                     <input type="hidden" name="update_status" value="1">
                                                 </form>
                                             </td>
                                             <td class="text-center">
-                                                <a href="admin.php?hapus=<?= $row['id_laporan']; ?>" class="btn btn-sm btn-light border text-danger" onclick="return confirm('Hapus?')">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </a>
+                                                <?php if ($row['status_laporan'] == 'cocok'): ?>
+                                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalVerif<?= $row['id_laporan'] ?>">
+                                                        <i class="fa-solid fa-paper-plane"></i> Verifikasi
+                                                    </button>
+
+                                                    <div class="modal fade" id="modalVerif<?= $row['id_laporan'] ?>" tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content text-dark">
+                                                                <form action="proses_verifikasi.php" method="POST">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title fw-bold">Kirim Undangan Verifikasi</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                    </div>
+                                                                    <div class="modal-body text-start">
+                                                                        <p>Kirim notifikasi ke <strong><?= $row['nama'] ?></strong>?</p>
+                                                                        
+                                                                        <input type="hidden" name="id_laporan" value="<?= $row['id_laporan'] ?>">
+                                                                        <input type="hidden" name="id_barang" value="<?= $row['id_barang_cocok'] ?? '' ?>"> 
+
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label fw-bold">Pesan Instruksi</label>
+                                                                            <textarea class="form-control" name="pesan_admin" rows="3" required placeholder="Contoh: Silahkan ke loket stasiun..."></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="submit" name="kirim_verif" class="btn btn-primary w-100">Kirim ke User</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                <?php elseif ($row['status_laporan'] == 'proses'): ?>
+                                                    <span class="badge bg-info text-dark">Menunggu Balasan</span>
+                                                <?php else: ?>
+                                                    <button class="btn btn-sm btn-light" disabled>-</button>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                         <?php } ?>

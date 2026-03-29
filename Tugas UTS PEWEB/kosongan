@@ -1,0 +1,11 @@
+<td>
+    <?php if ($row['status_laporan'] == 'cocok'): ?>
+        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#modalVerif<?= $row['id_laporan'] ?>">
+            <i class="fa-solid fa-paper-plane"></i> Verifikasi
+        </button>
+    <?php elseif ($row['status_laporan'] == 'proses'): ?>
+        <span class="badge bg-info text-dark">Menunggu Balasan</span>
+    <?php else: ?>
+        <button class="btn btn-sm btn-light" disabled>-</button>
+    <?php endif; ?>
+</td>

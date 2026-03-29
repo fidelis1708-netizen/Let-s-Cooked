@@ -22,6 +22,14 @@ body {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
+.img-arsip {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
 /* Badge & Label */
 .badge-selesai {
   background-color: #2ecc71;

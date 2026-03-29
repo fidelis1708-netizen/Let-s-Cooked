@@ -6,23 +6,25 @@ if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password']; 
 
-    // Sesuaikan nama tabel: users
     $query = "SELECT * FROM users WHERE email = '$email'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
 
-        // Cek password (bisa hash atau teks biasa)
         if (password_verify($password, $row['password']) || $password == $row['password']) {
             
-            // PENTING: Gunakan kolom 'nama' sesuai gambar database kamu
             $_SESSION['username'] = $row['nama']; 
             $_SESSION['id_user'] = $row['id_user'];
-            $_SESSION['role'] = $row['role']; // Ambil role (petugas/pelapor)
+            $_SESSION['role'] = $row['role']; 
             
-            header("Location: home.php");
+            if ($row['role'] === 'petugas') {
+                header("Location: admin.php");
+            } else {
+                header("Location: home.php");
+            }
             exit();
+            
         } else {
             $error = "Password salah!";
         }

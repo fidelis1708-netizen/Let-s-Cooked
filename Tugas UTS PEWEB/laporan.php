@@ -56,7 +56,11 @@ if (!isset($_SESSION['username'])) {
                             <option>Stasiun Bogor</option>
                         </select>
                     </div>
-
+                    <div class="input-group">
+                        <label>Peron</label>
+                        <input type="text" name="peron" placeholder="Misal: Peron 2" required>
+                    </div>
+                    
                     <div class="input-group">
                         <label>Tanggal Kehilangan</label>
                         <input type="date" name="tanggal" required>

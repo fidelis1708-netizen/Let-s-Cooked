@@ -6,6 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_pelapor = $_SESSION['id_user']; 
     $nama_barang = mysqli_real_escape_string($conn, $_POST['jenis_barang']);
     $lokasi = mysqli_real_escape_string($conn, $_POST['lokasi']);
+    $peron = mysqli_real_escape_string($conn, $_POST['peron']);
     $tanggal = $_POST['tanggal'];
     $deskripsi = mysqli_real_escape_string($conn, $_POST['deskripsi']);
 
@@ -25,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $query = "INSERT INTO laporan_kehilangan 
-              (id_pelapor, nama_barang, deskripsi_ciri_khusus, lokasi_hilang, tanggal_hilang, status_laporan, foto_barang) 
+              (id_pelapor, nama_barang, deskripsi_ciri_khusus, lokasi_hilang, peron, tanggal_hilang, status_laporan, foto_barang) 
               VALUES 
-              ('$id_pelapor', '$nama_barang', '$deskripsi', '$lokasi', '$tanggal', 'mencari', '$nama_file_db')";
+              ('$id_pelapor', '$nama_barang', '$deskripsi', '$lokasi', '$peron', '$tanggal', 'mencari', '$nama_file_db')";
 
     if (mysqli_query($conn, $query)) {
         echo "<script>

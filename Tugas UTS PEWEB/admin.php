@@ -2,60 +2,49 @@
 // Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "lostnf");
 
-// Logika Update Status Laporan
+// Logika Update Status Laporan (Tetap sama)
 if (isset($_POST['update_status'])) {
     $id_laporan = $_POST['id_laporan'];
     $status_baru = $_POST['status_baru'];
-
     $query_update = "UPDATE laporan_kehilangan SET status_laporan = '$status_baru' WHERE id_laporan = '$id_laporan'";
-    
-    if (mysqli_query($conn, $query_update)) {
-        echo "<script>alert('Status berhasil diperbarui!'); window.location='admin.php';</script>";
-    } else {
-        echo "<script>alert('Gagal memperbarui status');</script>";
-    }
+    mysqli_query($conn, $query_update);
+    header("Location: admin.php");
 }
 
-// Logika Hapus Laporan Kehilangan
-if (isset($_GET['hapus_laporan'])) {
-    // Mengambil ID dari URL
-    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_laporan']);
-    
-    // Query hapus berdasarkan id_laporan
-    $query_hapus = "DELETE FROM laporan_kehilangan WHERE id_laporan = '$id_hapus'";
-    
-    if (mysqli_query($conn, $query_hapus)) {
-        echo "<script>
-                alert('Laporan berhasil dihapus!');
-                window.location.href='admin.php';
-              </script>";
-    } else {
-        echo "<script>alert('Gagal menghapus: " . mysqli_error($conn) . "');</script>";
-    }
-}
-
-// Cek jika tombol simpan ditekan
+// --- LOGIKA SIMPAN BARANG TEMUAN (DIPERBARUI) ---
 if (isset($_POST['submit_simpan'])) {
-    $nama_barang = $_POST['nama_barang'];
-    $lokasi = $_POST['lokasi'];
+    $nama_barang = mysqli_real_escape_string($conn, $_POST['nama_barang']);
+    $lokasi = mysqli_real_escape_string($conn, $_POST['lokasi']);
+    $lokasi_peron = mysqli_real_escape_string($conn, $_POST['lokasi_peron']);
     $tanggal = $_POST['tanggal'];
-    $deskripsi = $_POST['deskripsi'];
+    $deskripsi = mysqli_real_escape_string($conn, $_POST['deskripsi']);
+    $id_petugas = NULL; 
+
+    // BARU: Logika Upload Foto
+    $foto_name = $_FILES['foto_barang']['name'];
+    $foto_tmp  = $_FILES['foto_barang']['tmp_name'];
+    $foto_size = $_FILES['foto_barang']['size'];
     
-    // Karena di SQL anda id_petugas adalah FK, kita gunakan ID 1 sebagai contoh
-    // Pastikan di tabel users sudah ada id_user = 1
-    $id_petugas = 1; 
+    // Beri nama unik agar tidak bentrok
+    $ekstensi  = pathinfo($foto_name, PATHINFO_EXTENSION);
+    $foto_baru = time() . "_" . $nama_barang . "." . $ekstensi;
+    $target_dir = "uploads/" . $foto_baru;
 
-    $query = "INSERT INTO barang_temuan (nama_barang, deskripsi, lokasi_temuan, tanggal_temuan, id_petugas, status) 
-              VALUES ('$nama_barang', '$deskripsi', '$lokasi', '$tanggal', '$id_petugas', 'tersedia')";
-
-    if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Data berhasil disimpan!'); window.location='admin.php';</script>";
+    // Cek apakah folder uploads ada, jika tidak ada jangan lupa buat manual!
+    if (move_uploaded_file($foto_tmp, $target_dir)) {
+        // Query ditambahkan kolom foto_barang
+        $query = "INSERT INTO barang_temuan (nama_barang, deskripsi, foto_barang, lokasi_temuan, lokasi_peron, tanggal_temuan, id_petugas, status) 
+                  VALUES ('$nama_barang', '$deskripsi', '$foto_baru', '$lokasi', '$lokasi_peron' '$tanggal', '$id_petugas', 'tersedia')";
+        if (mysqli_query($conn, $query)) {
+            echo "<script>alert('Data & Foto berhasil disimpan!'); window.location='admin.php';</script>";
+        } else {
+            echo "Gagal database: " . mysqli_error($conn);
+        }
     } else {
-        echo "Gagal: " . mysqli_error($conn);
+        echo "<script>alert('Gagal upload foto. Pastikan folder uploads/ sudah ada!');</script>";
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="id">
@@ -116,14 +105,24 @@ if (isset($_POST['submit_simpan'])) {
                             <h5 class="fw-bold mb-3"><i class="fa-solid fa-plus-circle text-primary me-2"></i>Input
                                 Barang Baru</h5>
 
-                            <form action="" method="POST"> 
-                                <div class="mb-3">
+                            <form action="" method="POST" enctype="multipart/form-data">                               
+                                 <div class="mb-3">
                                     <label class="form-label small fw-bold">Nama Barang</label>
                                     <input type="text" name="nama_barang" class="form-control" placeholder="Misal: Dompet Kulit Cokelat" required>
                                 </div>
+                                
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold">Lokasi Ditemukan</label>
-                                    <input type="text" name="lokasi" class="form-control" placeholder="Misal: Peron 2" required>
+                                    <label class="form-label small fw-bold">Lokasi Kehilangan</label>
+                                        <select name="lokasi" class="form-select" required>
+                                            <option value="" selected disabled>-- Pilih Lokasi --</option>
+                                            <option value="Stasiun Serpong">Stasiun Serpong</option>
+                                            <option value="Stasiun Tangerang">Stasiun Tangerang</option>
+                                            <option value="Stasiun Bogor">Stasiun Bogor</option>
+                                        </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Lokasi Peron</label>
+                                    <input type="text" name="lokasi_peron" class="form-control" placeholder="Misal: Peron 2" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label small fw-bold">Tanggal</label>
@@ -133,7 +132,11 @@ if (isset($_POST['submit_simpan'])) {
                                     <label class="form-label small fw-bold">Deskripsi Singkat</label>
                                     <textarea name="deskripsi" class="form-control" rows="3" placeholder="Ciri-ciri khusus barang..."></textarea>
                                 </div>
-                                
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold">Unggah Foto Barang</label>
+                                    <input type="file" name="foto_barang" class="form-control" accept="image/*" required>                                
+                                </div>
+
                                 <button type="submit" name="submit_simpan" class="btn btn-primary w-100 py-2 mt-2">
                                     Simpan ke Database
                                 </button>
@@ -153,7 +156,8 @@ if (isset($_POST['submit_simpan'])) {
                                         <tr class="small text-muted text-uppercase">
                                             <th>Pelapor</th>
                                             <th>Nama Barang</th>
-                                            <th>Lokasi</th>
+                                            <th>Lokasi Temuan</th>
+                                            <th>Lokasi Peron</th>
                                             <th>Status</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
@@ -181,6 +185,7 @@ if (isset($_POST['submit_simpan'])) {
                                             <td><strong><?php echo htmlspecialchars($row['nama']); ?></strong></td>
                                             <td><?php echo htmlspecialchars($row['nama_barang']); ?></td>
                                             <td><?php echo htmlspecialchars($row['lokasi_hilang']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['peron']); ?></td>
                                             <td>
                                                 <form action="" method="POST" class="d-inline">
                                                     <input type="hidden" name="id_laporan" value="<?php echo $row['id_laporan']; ?>">

@@ -1,8 +1,7 @@
-/* Custom Variable */
+/* Root tetap dipertahankan untuk konsistensi warna */
 :root {
   --primary-blue: #3b71ca;
   --dark-blue: #2a5298;
-  --sidebar-width: 250px;
 }
 
 body {
@@ -10,42 +9,15 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Sidebar Styling */
-.sidebar {
-  min-height: 100vh;
-  width: var(--sidebar-width);
-  background: linear-gradient(
-    180deg,
-    var(--primary-blue) 0%,
-    var(--dark-blue) 100%
-  );
-  color: white;
-  transition: all 0.3s;
-  z-index: 1000;
-}
-
-.nav-link {
-  color: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  margin-bottom: 5px;
-  padding: 12px 15px;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: white;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.nav-link i {
-  width: 25px;
-}
-
-/* Content Styling */
-.main-content {
+/* --- KONTEN UTAMA --- */
+/* Tambahkan margin-left agar tidak tertutup sidebar fixed (250px sesuai lebar sidebar) */
+.main-content-area {
+  margin-left: 250px;
   padding: 30px;
+  min-height: 100vh;
 }
 
+/* Styling Card agar terlihat modern */
 .card {
   border: none;
   border-radius: 15px;
@@ -53,6 +25,7 @@ body {
   margin-bottom: 20px;
 }
 
+/* Custom Button */
 .btn-primary {
   background-color: var(--primary-blue);
   border: none;
@@ -65,7 +38,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* Table Styling */
+/* --- TABLE STYLING --- */
 .table thead {
   background-color: #f1f4f9;
 }
@@ -74,24 +47,22 @@ body {
   border: none;
   font-weight: 600;
   color: #6c757d;
+  font-size: 0.85rem;
+  text-transform: uppercase;
 }
 
-.status-badge {
-  font-size: 0.8rem;
-  padding: 6px 14px;
-  border-radius: 20px;
-}
-
-/* Utility */
-.opacity-75 {
-  opacity: 0.75;
-}
-
+/* Animasi Loading/Fading tetap dipertahankan jika dipakai */
 @keyframes fading {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 .animate-fading {
-    animation: fading 2s infinite;
+  animation: fading 2s infinite;
 }

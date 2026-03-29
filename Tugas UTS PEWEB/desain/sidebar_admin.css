@@ -1,0 +1,38 @@
+/* desain/sidebar_admin.css */
+.sidebar {
+  width: 250px; /* Kunci lebar sidebar */
+  background: linear-gradient(180deg, #0d6efd 0%, #084298 100%);
+  min-height: 100vh;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1030;
+  position: fixed; /* Tetap di kiri saat scroll */
+  padding: 2rem 1rem;
+}
+
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  padding: 12px 20px;
+  border-radius: 10px;
+  transition: 0.3s;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.sidebar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sidebar .nav-link.active {
+  background-color: white !important;
+  color: #0d6efd !important;
+  font-weight: bold;
+}
+
+/* Penyesuaian Konten Utama */
+.main-content-area {
+  margin-left: 250px; /* Harus sama dengan lebar sidebar */
+  width: calc(100% - 250px);
+}

@@ -86,7 +86,7 @@ if (isset($_POST['submit_simpan'])) {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'laporan_hilang.php') ? 'active' : '' ?>" href="laporan_hilang.php">
-                        <i class="fa-solid fa-clipboard-check me-2"></i> Laporan Selesai
+                        <i class="fa-solid fa-clipboard-check me-2"></i> Laporan Hilang
                     </a>
                 </li>
                 <hr class="text-white-50 my-4">

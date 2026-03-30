@@ -98,10 +98,6 @@ if (isset($_GET['hapus_arsip'])) {
                                             <i class="fa-solid fa-check-double me-1"></i> Telah Kembali
                                         </span>
                                     </div>
-                                    <a href="riwayat_selesai.php?hapus_arsip=<?= $row['id_laporan'] ?>" 
-                                       class="text-muted" onclick="return confirm('Hapus permanen dari arsip?')">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
                                 </div>
 
                                 <div class="row">

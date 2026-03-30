@@ -2,31 +2,31 @@
 session_start();
 include 'koneksi.php';
 
+// 1. Pastikan user sudah login
 if (!isset($_SESSION['id_user'])) {
     header("Location: login.php");
     exit();
 }
 
+// 2. Ambil ID laporan dari URL
 if (isset($_GET['id'])) {
     $id_laporan = mysqli_real_escape_string($conn, $_GET['id']);
 
-    $sql_update_laporan = "UPDATE laporan_kehilangan SET status_laporan = 'selesai' WHERE id_laporan = '$id_laporan'";
-    
-    n_kehilangan ada kolom yang isinya ID dari barang_temuan
-    $sql_update_barang = "UPDATE barang_temuan SET status = 'Selesai' 
-                          WHERE id_barang = (SELECT id_barang FROM laporan_kehilangan WHERE id_laporan = '$id_laporan')";
+    // 3. Update status laporan menjadi 'selesai'
+    $sql_update = "UPDATE laporan_kehilangan SET status_laporan = 'selesai' WHERE id_laporan = '$id_laporan'";
 
-    mysqli_query($conn, $sql_update_laporan);
-
-    if (mysqli_query($conn, $sql_update_barang)) {
+    if (mysqli_query($conn, $sql_update)) {
+        // 4. Jika berhasil, lempar balik ke home.php dengan pesan sukses
         echo "<script>
-                alert('Terima kasih! Barang telah berhasil dikembalikan.');
+                alert('Terima kasih! Laporan Anda telah diselesaikan.');
                 window.location.href = 'home.php';
               </script>";
     } else {
-        echo "Error detail: " . mysqli_error($conn);
+        // Jika gagal karena error database
+        echo "Error: " . mysqli_error($conn);
     }
 } else {
+    // Jika ID tidak ditemukan di URL, balikkan ke home
     header("Location: home.php");
 }
 ?>

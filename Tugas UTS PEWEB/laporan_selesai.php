@@ -8,12 +8,7 @@ if (!isset($_SESSION['id_user']) || $_SESSION['role'] !== 'petugas') {
     exit;
 }
 
-// Logika Hapus Permanen dari Arsip
-if (isset($_GET['hapus_arsip'])) {
-    $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_arsip']);
-    mysqli_query($conn, "DELETE FROM laporan_kehilangan WHERE id_laporan = '$id_hapus'");
-    echo "<script>alert('Arsip laporan dihapus permanen!'); window.location='riwayat_selesai.php';</script>";
-}
+
 ?>
 
 <!DOCTYPE html>

@@ -2,20 +2,36 @@
 session_start();
 include 'koneksi.php';
 
-// Proteksi halaman: Jika belum login, tendang ke login.php
-if (!isset($_SESSION['username'])) {
+// 1. CEK LOGIN (Penting agar tidak error saat akses langsung)
+if (!isset($_SESSION['id_user'])) {
     header("Location: login.php");
     exit();
 }
 
-// Ambil data user terbaru dari database berdasarkan ID di session
 $id_user = $_SESSION['id_user'];
+
+// 2. AMBIL DATA USER TERBARU DARI DATABASE
 $query = mysqli_query($conn, "SELECT * FROM users WHERE id_user = '$id_user'");
 $user = mysqli_fetch_assoc($query);
 
-// Mengambil inisial nama untuk avatar (Contoh: Fidelis -> FI)
-$nama_lengkap = $user['nama'];
-$inisial = strtoupper(substr($nama_lengkap, 0, 2));
+// 3. LOGIKA MEMBUAT INISIAL (Contoh: "Budi Utomo" jadi "BU")
+$nama_awal = $user['nama'];
+$inisial = strtoupper(substr($nama_awal, 0, 1)); 
+
+// 4. PROSES UPDATE JIKA TOMBOL DIKLIK
+if (isset($_POST['update'])) {
+    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $no_telp = mysqli_real_escape_string($conn, $_POST['no_telp']);
+
+    $sql = "UPDATE users SET nama='$nama', email='$email', no_telp='$no_telp' WHERE id_user='$id_user'";
+    
+    if (mysqli_query($conn, $sql)) {
+        echo "<script>alert('Profil berhasil diperbarui!'); window.location='profile.php';</script>";
+    } else {
+        echo "Gagal update: " . mysqli_error($conn);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -32,10 +48,10 @@ $inisial = strtoupper(substr($nama_lengkap, 0, 2));
         <aside class="sidebar">
             <h2 class="logo">🔍 Lost & Found KRL</h2>
             <ul>
-                <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'home.php') ? 'active' : ''; ?>" onclick="location.href='home.php'">Dashboard</li>
-                <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'laporan.php') ? 'active' : ''; ?>" onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
-                <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'panduan.php') ? 'active' : ''; ?>" onclick="location.href='panduan.php'">Panduan Melaporkan</li>
-                <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'profile.php') ? 'active' : ''; ?>" onclick="location.href='profile.php'">Profil</li>
+                <li onclick="location.href='home.php'">Dashboard</li>
+                <li onclick="location.href='laporan.php'">Laporkan Kehilangan</li>
+                <li onclick="location.href='panduan.php'">Panduan Melaporkan</li>
+                <li class="active" onclick="location.href='profile.php'">Profil</li>
             </ul>
         </aside>
 
@@ -84,8 +100,7 @@ $inisial = strtoupper(substr($nama_lengkap, 0, 2));
                 <span class="close-btn" onclick="tutupModal()">&times;</span>
             </div>
             
-            <form action="update_profile.php" method="POST">
-                <div class="form-group">
+            <form action="" method="POST"> <div class="form-group">
                     <label>Nama Lengkap</label>
                     <input type="text" name="nama" value="<?php echo htmlspecialchars($user['nama']); ?>" required>
                 </div>

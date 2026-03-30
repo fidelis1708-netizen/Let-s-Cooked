@@ -4,6 +4,7 @@ include 'koneksi.php';
 if (isset($_POST['register'])) {
     $nama = mysqli_real_escape_string($conn, $_POST['nama']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $no_telp = mysqli_real_escape_string($conn, $_POST['no_telp']); 
     $password = $_POST['password'];
     $konfirmasi = $_POST['konfirmasi_password'];
 
@@ -11,14 +12,15 @@ if (isset($_POST['register'])) {
         echo "<script>alert('Konfirmasi password tidak sesuai!'); window.location='register.php';</script>";
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        
         $role = 'pelapor';
 
         $cek_email = mysqli_query($conn, "SELECT email FROM users WHERE email = '$email'");
         if (mysqli_num_rows($cek_email) > 0) {
             echo "<script>alert('Email sudah digunakan!'); window.location='register.php';</script>";
         } else {
-            $query = "INSERT INTO users (nama, email, password, role) VALUES ('$nama', '$email', '$hashed_password', '$role')";
+            // QUERY DIBAWAH SUDAH DITAMBAHKAN no_telp
+            $query = "INSERT INTO users (nama, email, no_telp, password, role) 
+                      VALUES ('$nama', '$email', '$no_telp', '$hashed_password', '$role')";
             
             if (mysqli_query($conn, $query)) {
                 echo "<script>alert('Registrasi Berhasil! Silahkan Login.'); window.location='login.php';</script>";

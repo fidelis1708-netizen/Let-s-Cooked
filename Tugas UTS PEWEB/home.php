@@ -4,6 +4,19 @@ if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
+
+include 'koneksi.php';
+$id_pelapor = $_SESSION['id_user']; 
+
+// Query diperbarui dengan LEFT JOIN agar pesan_admin dari tabel klaim_pencocokan bisa terbaca
+$sql = "SELECT l.*, k.pesan_admin 
+        FROM laporan_kehilangan l
+        LEFT JOIN klaim_pencocokan k ON l.id_laporan = k.id_laporan
+        WHERE l.id_pelapor = '$id_pelapor' 
+        AND (l.status_laporan != 'selesai' OR (l.status_laporan = 'selesai' AND l.tanggal_hilang >= DATE_SUB(NOW(), INTERVAL 5 MINUTE))) 
+        ORDER BY l.id_laporan DESC";
+
+$result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -53,14 +66,6 @@ if (!isset($_SESSION['username'])) {
             <div class="notif-box">
                 <h2>Notifikasi</h2>
                 <?php
-                include 'koneksi.php';
-                $id_pelapor = $_SESSION['id_user']; 
-                $sql = "SELECT * FROM laporan_kehilangan 
-                WHERE id_pelapor = '$id_pelapor' 
-                AND (status_laporan != 'selesai' OR (status_laporan = 'selesai' AND tanggal_hilang >= DATE_SUB(NOW(), INTERVAL 5 MINUTE))) 
-                ORDER BY id_laporan DESC";
-                $result = mysqli_query($conn, $sql);
-
                 if ($result && mysqli_num_rows($result) > 0) {
                     while($row = mysqli_fetch_assoc($result)) {
                         $icon = "🕒"; 
@@ -72,6 +77,23 @@ if (!isset($_SESSION['username'])) {
                             <div>
                                 <h4>Laporan <?php echo htmlspecialchars($row['nama_barang']); ?></h4>
                                 <p><?php echo htmlspecialchars($row['deskripsi_ciri_khusus']); ?></p>
+                        
+                                <?php if (!empty($row['pesan_admin'])): ?>
+                                    <div style="margin-top: 5px; padding-top: 5px; border-top: 1px dashed #ddd; font-size: 0.85rem;">
+                                        <strong style="color: #3b71ca;">Instruksi:</strong> 
+                                        <span><?php echo htmlspecialchars($row['pesan_admin']); ?></span>
+                                    </div>
+                                    
+                                    <?php if ($row['status_laporan'] == 'cocok'): ?>
+                                        <div style="margin-top: 10px;">
+                                            <a href="selesaikan_laporan.php?id=<?php echo $row['id_laporan']; ?>" 
+                                            onclick="return confirm('Apakah Anda yakin sudah menerima barang ini?')" 
+                                            style="background-color: #198754; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.8rem; display: inline-block;">
+                                            ✅ Barang Sudah Saya Ambil
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
                             </div>
                             <small><?php echo date('d M', strtotime($row['tanggal_hilang'])); ?></small>
                         </div>

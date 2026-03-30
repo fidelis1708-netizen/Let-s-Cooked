@@ -46,7 +46,6 @@ if (isset($_GET['hapus_barang'])) {
     <link rel="stylesheet" href="desain/admin.css">
     <style>
         body { background-color: #f4f7f6; }
-        .sidebar { background: #2c3e50; min-height: 100vh; position: fixed; color: white; }
         .nav-link { color: rgba(255,255,255,0.7); border-radius: 8px; margin-bottom: 5px; }
         .nav-link:hover, .nav-link.active { background: #34495e; color: white; }
         .card-barang { border: none; border-radius: 12px; transition: 0.3s; }

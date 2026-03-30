@@ -1,29 +1,24 @@
 <?php
-session_start();
-$conn = mysqli_connect("localhost", "root", "", "lostnf");
+include 'koneksi.php';
 
-if (isset($_POST['kirim_verif'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_laporan = $_POST['id_laporan'];
-    $id_barang  = $_POST['id_barang'];
-    $pesan      = mysqli_real_escape_string($conn, $_POST['pesan_admin']);
-    $id_petugas = $_SESSION['id_user'] ?? NULL; 
-    $status_verifikasi = 'pending';
+    $id_barang = $_POST['id_barang'];
+    $pesan = mysqli_real_escape_string($conn, $_POST['pesan_admin']);
 
-    $query_klaim = "INSERT INTO klaim_pencocokan (id_barang, id_laporan, id_petugas, bukti_kepemilikan, status_verifikasi) 
-                    VALUES ('$id_barang', '$id_laporan', '$id_petugas', '$pesan', '$status_verifikasi')";
+    // 1. Update id_barang_cocok langsung di tabel laporan_kehilangan
+    $query = "UPDATE laporan_kehilangan SET 
+              id_barang_cocok = '$id_barang', 
+              status_laporan = 'cocok' 
+              WHERE id_laporan = '$id_laporan'";
 
-    $query_update_laporan = "UPDATE laporan_kehilangan SET status_laporan = 'proses' WHERE id_laporan = '$id_laporan'";
-
-    if (mysqli_query($conn, $query_klaim) && mysqli_query($conn, $query_update_laporan)) {
-        echo "<script>
-                alert('Undangan verifikasi berhasil dikirim!');
-                window.location='admin.php';
-              </script>";
+    if (mysqli_query($conn, $query)) {
+        // 2. Update status barang temuan menjadi 'diproses' agar tidak muncul di laporan lain
+        mysqli_query($conn, "UPDATE barang_temuan SET status = 'diproses' WHERE id_barang = '$id_barang'");
+        
+        echo "<script>alert('Verifikasi terkirim ke pelapor!'); window.location='admin.php';</script>";
     } else {
         echo "Error: " . mysqli_error($conn);
     }
-} else {
-    header("Location: admin.php");
-    exit;
 }
 ?>

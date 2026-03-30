@@ -66,7 +66,7 @@ if (isset($_GET['hapus_arsip'])) {
         </div>
 
         <div class="main-content-area p-5">
-            </div>
+        </div>
     </div>
 </div>
             <div class="col-md-10 offset-md-2 p-5">

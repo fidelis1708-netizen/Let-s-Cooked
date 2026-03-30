@@ -82,7 +82,6 @@ if (isset($_POST['submit_simpan'])) {
                 <h5 class="fw-bold">CommuterLink</h5>
                 <small class="opacity-75 text-uppercase" style="font-size: 0.7rem;">Nusantara Admin</small>
             </div>
-
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'admin.php') ? 'active' : '' ?>" href="admin.php">
@@ -90,7 +89,7 @@ if (isset($_POST['submit_simpan'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="#">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="barang_temuan.php">
                         <i class="fa-solid fa-box-open me-2"></i> Barang Temuan
                     </a>
                 </li>
@@ -107,8 +106,7 @@ if (isset($_POST['submit_simpan'])) {
                 </li>
             </ul>
         </div>
-
-            <div class="col-md-10 offset-md-2 p-5">
+        <div class="col-md-10 offset-md-2 p-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h3 class="fw-bold">Manajemen Lost & Found</h3>
@@ -169,6 +167,7 @@ if (isset($_POST['submit_simpan'])) {
                                             <th>Pelapor</th>
                                             <th>Barang</th>
                                             <th>Lokasi</th>
+                                            <th>Peron</th>
                                             <th>Status</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
@@ -188,6 +187,7 @@ if (isset($_POST['submit_simpan'])) {
                                             <td><strong><?= htmlspecialchars($row['nama']); ?></strong></td>
                                             <td><?= htmlspecialchars($row['nama_barang']); ?></td>
                                             <td><?= htmlspecialchars($row['lokasi_hilang']); ?></td>
+                                            <td><?= htmlspecialchars($row['peron']); ?></td>
                                             <td>
                                                 <form action="" method="POST">
                                                     <input type="hidden" name="id_laporan" value="<?= $row['id_laporan']; ?>">
@@ -215,23 +215,46 @@ if (isset($_POST['submit_simpan'])) {
                                                         <div class="modal-dialog">
                                                             <div class="modal-content text-dark">
                                                                 <form action="proses_verifikasi.php" method="POST">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title fw-bold">Kirim Undangan Verifikasi</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                                    </div>
-                                                                    <div class="modal-body text-start">
-                                                                        <p>Kirim notifikasi ke <strong><?= $row['nama'] ?></strong>?</p>
-                                                                        <input type="hidden" name="id_laporan" value="<?= $row['id_laporan'] ?>">
-                                                                        <input type="hidden" name="id_barang" value="<?= $row['id_barang_cocok'] ?? '' ?>"> 
-                                                                        <div class="mb-3">
-                                                                            <label class="form-label fw-bold">Pesan Instruksi</label>
-                                                                            <textarea class="form-control" name="pesan_admin" rows="3" required placeholder="Contoh: Silahkan ke loket stasiun..."></textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" name="kirim_verif" class="btn btn-primary w-100">Kirim ke User</button>
-                                                                    </div>
-                                                                </form>
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Verifikasi Kepemilikan</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                            </div>
+                                                            <div class="modal-body text-start">
+                                                                <p>Kirim instruksi ke: <strong><?= $row['nama'] ?></strong></p>
+                                                                <input type="hidden" name="id_laporan" value="<?= $row['id_laporan'] ?>">
+                                                                
+                                                                <div class="mb-3">
+                                                                    <div class="mb-3">
+                                                                    <label class="form-label fw-bold">Pilih Barang yang Cocok</label>
+                                                                    <select name="id_barang" class="form-select" required>
+                                                                        <option value="">-- Pilih Barang dari Gudang --</option>
+                                                                        <?php
+                                                                        // Mengambil id_barang dan nama_barang dari tabel barang_temuan
+                                                                        // Pastikan statusnya 'tersedia' sesuai dengan enum di database
+                                                                        $q_brg = mysqli_query($conn, "SELECT id_barang, nama_barang, lokasi_temuan FROM barang_temuan WHERE status = 'tersedia' ORDER BY id_barang DESC");
+                                                                        
+                                                                        if (mysqli_num_rows($q_brg) > 0) {
+                                                                            while($b = mysqli_fetch_assoc($q_brg)) {
+                                                                                // Menampilkan nama barang dan lokasinya agar admin tidak tertukar
+                                                                                echo "<option value='".$b['id_barang']."'>".$b['nama_barang']." (".$b['lokasi_temuan'].")</option>";
+                                                                            }
+                                                                        } else {
+                                                                            echo "<option value='' disabled>Stok barang kosong / belum di-input</option>";
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label fw-bold">Pesan Admin</label>
+                                                                    <textarea name="pesan_admin" class="form-control" rows="3" required></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit" class="btn btn-primary">Kirim Verifikasi</button>
+                                                            </div>
+                                                        </form>
                                                             </div>
                                                         </div>
                                                     </div>

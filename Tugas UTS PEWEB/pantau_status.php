@@ -81,7 +81,7 @@ $result = mysqli_query($conn, $query);
                                 <small class="text-muted">
                                     <i class="bi bi-calendar-event"></i> <?= date('d M Y', strtotime($row['tanggal_hilang'])); ?>
                                 </small>
-                                <a href="detail_laporan.php?id=<?= $row['id_laporan']; ?>" class="btn btn-sm btn-primary px-3 rounded-pill">Detail</a>
+                                
                             </div>
                         </div>
                     </div>

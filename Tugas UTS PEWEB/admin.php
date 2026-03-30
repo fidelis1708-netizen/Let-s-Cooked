@@ -94,12 +94,12 @@ if (isset($_GET['hapus_laporan'])) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="barang_temuan.php">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'barang_temuan.php') ? 'active' : '' ?>" href="barang_temuan.php">
                         <i class="fa-solid fa-box-open me-2"></i> Barang Temuan
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="laporan_hilang.php">
+                    <a class="nav-link <?= (basename($_SERVER['PHP_SELF']) == 'laporan_selesai.php') ? 'active' : '' ?>" href="laporan_selesai.php">
                         <i class="fa-solid fa-clipboard-check me-2"></i> Laporan Selesai
                     </a>
                 </li>

@@ -1,68 +1,87 @@
-/* Root tetap dipertahankan untuk konsistensi warna */
 :root {
   --primary-blue: #3b71ca;
   --dark-blue: #2a5298;
+  --bg-light: #f8f9fa;
 }
 
 body {
-  background-color: #f8f9fa;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-light);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
 }
 
 /* --- KONTEN UTAMA --- */
-/* Tambahkan margin-left agar tidak tertutup sidebar fixed (250px sesuai lebar sidebar) */
 .main-content-area {
-  margin-left: 250px;
-  padding: 30px;
+  /* Memberi ruang agar tidak ditabrak sidebar */
+  margin-left: 260px;
+  padding: 40px; /* Jarak dari tepi layar ke konten */
   min-height: 100vh;
 }
 
-/* Styling Card agar terlihat modern */
+/* --- CARD STYLING --- */
 .card {
   border: none;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  background-color: #ffffff;
+  /* Margin bawah agar card tidak menempel satu sama lain di mobile */
+  margin-bottom: 24px;
 }
 
-/* Custom Button */
+/* --- FORM STYLING --- */
+.form-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #495057;
+  margin-bottom: 8px;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+}
+
+.form-control:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 0.25 margin-left;
+}
+
+/* --- TABLE STYLING --- */
+.table {
+  margin-top: 10px;
+}
+
+.table thead th {
+  background-color: #fcfcfc;
+  border-bottom: 2px solid #f1f4f9;
+  padding: 15px;
+  letter-spacing: 0.5px;
+}
+
+.table tbody td {
+  padding: 18px 15px;
+  border-bottom: 1px solid #f1f4f9;
+}
+
+/* Tombol */
 .btn-primary {
   background-color: var(--primary-blue);
   border: none;
-  border-radius: 8px;
-  transition: all 0.2s;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
   background-color: var(--dark-blue);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(59, 113, 202, 0.3);
 }
 
-/* --- TABLE STYLING --- */
-.table thead {
-  background-color: #f1f4f9;
-}
-
-.table thead th {
-  border: none;
-  font-weight: 600;
-  color: #6c757d;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-}
-
-/* Animasi Loading/Fading tetap dipertahankan jika dipakai */
-@keyframes fading {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-.animate-fading {
-  animation: fading 2s infinite;
+/* Status Dropdown */
+.form-select-sm {
+  font-size: 0.8rem;
+  font-weight: 500;
 }

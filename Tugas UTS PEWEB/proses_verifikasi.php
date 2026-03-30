@@ -1,24 +1,32 @@
 <?php
+session_start();
 include 'koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_laporan = $_POST['id_laporan'];
-    $id_barang = $_POST['id_barang'];
-    $pesan = mysqli_real_escape_string($conn, $_POST['pesan_admin']);
+if (!isset($_SESSION['id_user'])) {
+    header("Location: login.php");
+    exit();
+}
 
-    // 1. Update id_barang_cocok langsung di tabel laporan_kehilangan
-    $query = "UPDATE laporan_kehilangan SET 
-              id_barang_cocok = '$id_barang', 
-              status_laporan = 'cocok' 
-              WHERE id_laporan = '$id_laporan'";
+if (isset($_GET['id'])) {
+    $id_laporan = mysqli_real_escape_string($conn, $_GET['id']);
 
-    if (mysqli_query($conn, $query)) {
-        // 2. Update status barang temuan menjadi 'diproses' agar tidak muncul di laporan lain
-        mysqli_query($conn, "UPDATE barang_temuan SET status = 'diproses' WHERE id_barang = '$id_barang'");
-        
-        echo "<script>alert('Verifikasi terkirim ke pelapor!'); window.location='admin.php';</script>";
+    $sql_update_laporan = "UPDATE laporan_kehilangan SET status_laporan = 'selesai' WHERE id_laporan = '$id_laporan'";
+    
+    n_kehilangan ada kolom yang isinya ID dari barang_temuan
+    $sql_update_barang = "UPDATE barang_temuan SET status = 'Selesai' 
+                          WHERE id_barang = (SELECT id_barang FROM laporan_kehilangan WHERE id_laporan = '$id_laporan')";
+
+    mysqli_query($conn, $sql_update_laporan);
+
+    if (mysqli_query($conn, $sql_update_barang)) {
+        echo "<script>
+                alert('Terima kasih! Barang telah berhasil dikembalikan.');
+                window.location.href = 'home.php';
+              </script>";
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Error detail: " . mysqli_error($conn);
     }
+} else {
+    header("Location: home.php");
 }
 ?>

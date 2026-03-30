@@ -1,8 +1,9 @@
+/* --- Global Styles --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Inter", "Segoe UI", sans-serif;
 }
 
 body,
@@ -25,6 +26,7 @@ html {
   height: 100vh;
 }
 
+/* --- Top Section (Fixed) --- */
 .fixed-top-section {
   padding: 20px 30px 0 30px;
   flex-shrink: 0;
@@ -32,140 +34,184 @@ html {
 
 .banner {
   background:
-    linear-gradient(135deg, rgba(78, 115, 223, 0.4), rgba(34, 74, 190, 0.4)),
+    linear-gradient(135deg, rgba(78, 115, 223, 0.7), rgba(34, 74, 190, 0.7)),
     url("../image/kereta2.png");
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   color: white;
-  padding: 60px 40px;
+  padding: 50px 40px;
   border-radius: 20px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  min-height: 200px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.banner-text {
-  max-width: 65%;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+  min-height: 180px;
+  box-shadow: 0 8px 25px rgba(78, 115, 223, 0.2);
 }
 
 .banner-text h1 {
-  font-size: 32px;
-  margin-bottom: 10px;
+  font-size: 28px;
+  margin-bottom: 8px;
+  font-weight: 700;
 }
 
-/* Container untuk kartu agar sejajar */
 .cards {
   display: flex;
   gap: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px; /* Jarak ke area notif */
+  margin-bottom: 25px;
 }
 
-/* Gaya Dasar Kartu */
 .card {
   flex: 1;
   background: #ffffff;
   padding: 20px;
   border-radius: 15px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e2e8f0;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-
-  /* EFEK BARU: Transisi halus */
-  transition:
-    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-    box-shadow 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* EFEK HOVER (Saat Kursor Masuk) */
 .card:hover {
-  transform: translateY(-8px); /* Kartu naik */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); /* Bayangan lebih dalam */
-  border-color: #4e73df; /* Border berubah biru */
-  background-color: #fcfdff;
-}
-
-/* EFEK ACTIVE (Saat Kartu Diklik) */
-.card:active {
-  transform: translateY(-2px); /* Kartu sedikit turun saat ditekan */
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Mengubah warna teks judul saat hover */
-.card:hover h3 {
-  color: #4e73df;
-  transition: color 0.3s ease;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  border-color: #4e73df;
 }
 
 .card h3 {
-  font-size: 18px;
+  font-size: 17px;
   margin-bottom: 5px;
-  color: #333;
+  color: #1e293b;
 }
 
 .card p {
-  font-size: 14px;
-  color: #777;
+  font-size: 13px;
+  color: #64748b;
 }
 
-/* Scroll Area & Notifikasi */
+/* --- Scrollable Notification Area --- */
 .scroll-area {
   flex: 1;
   overflow-y: auto;
-  padding: 0 30px 80px 30px;
+  padding: 0 30px 100px 30px;
+  scroll-behavior: smooth;
 }
 
 .notif-box {
   background: white;
   padding: 25px;
-  border-radius: 15px;
+  border-radius: 18px;
   min-height: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
-.notif {
+.notif-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #334155;
   display: flex;
   align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s ease;
 }
 
-.notif:hover {
-  background-color: #f9fbff; /* Efek hover tipis pada notif */
+.notif-card {
+  display: flex;
+  background: #f8fafc;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  padding: 20px;
+  border-left: 6px solid #0d6efd;
+  transition: all 0.2s ease;
 }
 
-.notif span {
-  font-size: 24px;
-  margin-right: 15px;
+.notif-card:hover {
+  background: #f1f5f9;
 }
 
-.notif div {
-  flex: 1;
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.notif h4 {
-  font-size: 16px;
-  margin-bottom: 3px;
+.barang-name {
+  margin: 0;
+  font-weight: 700;
+  color: #1e293b;
 }
 
-.notif p {
+/* Badge System */
+.badge {
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bg-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+.bg-success {
+  background: #dcfce7;
+  color: #166534;
+}
+.bg-primary {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.pesan-box {
+  background: #ffffff;
+  padding: 12px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
   font-size: 13px;
-  color: gray;
+  margin: 10px 0;
+  color: #475569;
 }
 
-.notif small {
-  color: gray;
-  flex-shrink: 0;
-  margin-left: 10px;
+.btn-konfirmasi {
+  background-color: #198754;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 8px;
+  transition: opacity 0.2s;
 }
 
+.btn-konfirmasi:hover {
+  opacity: 0.9;
+  color: white;
+}
+
+.status-desc {
+  font-size: 13px;
+  color: #64748b;
+}
+.status-done {
+  font-size: 13px;
+  color: #15803d;
+  font-weight: 500;
+}
+
+.empty-notif {
+  text-align: center;
+  padding: 50px 0;
+  color: #94a3b8;
+}
+
+.empty-notif i {
+  font-size: 40px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Footer */
 .main-footer {
   position: absolute;
   bottom: 0;
@@ -174,7 +220,15 @@ html {
   text-align: center;
   padding: 15px;
   background: white;
-  border-top: 1px solid #eee;
-  color: gray;
-  z-index: 10;
+  border-top: 1px solid #f1f5f9;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* Utilities */
+.me-2 {
+  margin-right: 8px;
+}
+.text-warning {
+  color: #f59e0b;
 }

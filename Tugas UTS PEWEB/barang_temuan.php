@@ -9,7 +9,7 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// 2. LOGIKA HAPUS BARANG (Sekaligus Hapus File Foto)
+// 2. LOGIKA HAPUS BARANG (Sekaligus Hapus File Foto & Data Terelasi)
 if (isset($_GET['hapus_barang'])) {
     $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_barang']);
     
@@ -25,7 +25,10 @@ if (isset($_GET['hapus_barang'])) {
         }
     }
 
-    // Hapus data dari database
+    // PENTING: Hapus dulu data di tabel klaim_pencocokan agar tidak error Foreign Key
+    mysqli_query($conn, "DELETE FROM klaim_pencocokan WHERE id_barang = '$id_hapus'");
+
+    // Baru hapus data dari database utama
     $query_hapus = "DELETE FROM barang_temuan WHERE id_barang = '$id_hapus'";
     if (mysqli_query($conn, $query_hapus)) {
         echo "<script>alert('Barang Berhasil Dihapus!'); window.location='barang_temuan.php';</script>";
@@ -60,7 +63,7 @@ if (isset($_GET['hapus_barang'])) {
 
 <div class="container-fluid">
     <div class="row">
-            <div class="sidebar d-none d-md-block">
+        <div class="sidebar d-none d-md-block">
             <div class="text-center mb-5 text-white">
                 <i class="fa-solid fa-train-subway fa-3x mb-2"></i>
                 <h5 class="fw-bold">CommuterLink</h5>
@@ -103,15 +106,19 @@ if (isset($_GET['hapus_barang'])) {
 
             <div class="row">
                 <?php
-                // Query ambil semua data
-                $result = mysqli_query($conn, "SELECT * FROM barang_temuan ORDER BY id_barang DESC");
+                // Query hanya mengambil barang yang BELUM selesai
+                $query = "SELECT * FROM barang_temuan 
+                          WHERE status NOT IN ('selesai', 'Selesai') 
+                          ORDER BY id_barang DESC";
+                $result = mysqli_query($conn, $query);
                 
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        // Tentukan warna badge berdasarkan status di DB lu
                         $bg = 'bg-secondary';
-                        if($row['status'] == 'tersedia') $bg = 'bg-success';
-                        if($row['status'] == 'diproses') $bg = 'bg-warning text-dark';
+                        $status_label = strtolower($row['status']);
+                        if($status_label == 'tersedia') $bg = 'bg-info';
+                        if($status_label == 'diproses') $bg = 'bg-warning text-dark';
+                        if($status_label == 'dikembalikan' || $status_label == 'dikembalikan') $bg = 'bg-success text-dark';
                 ?>
                     <div class="col-md-4 col-lg-3 mb-4">
                         <div class="card card-barang shadow-sm h-100">
@@ -154,11 +161,11 @@ if (isset($_GET['hapus_barang'])) {
                                 <div class="modal-body">
                                     <img src="uploads/<?= $row['foto_barang'] ?>" class="w-100 rounded mb-3 shadow-sm">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between"><strong>Nama Barang:</strong> <span><?= $row['nama_barang'] ?></span></li>
-                                        <li class="list-group-item d-flex justify-content-between"><strong>Stasiun:</strong> <span><?= $row['lokasi_temuan'] ?></span></li>
-                                        <li class="list-group-item d-flex justify-content-between"><strong>Titik Peron:</strong> <span><?= $row['lokasi_peron'] ?></span></li>
+                                        <li class="list-group-item d-flex justify-content-between"><strong>Nama Barang:</strong> <span><?= htmlspecialchars($row['nama_barang']) ?></span></li>
+                                        <li class="list-group-item d-flex justify-content-between"><strong>Stasiun:</strong> <span><?= htmlspecialchars($row['lokasi_temuan']) ?></span></li>
+                                        <li class="list-group-item d-flex justify-content-between"><strong>Titik Peron:</strong> <span><?= htmlspecialchars($row['lokasi_peron']) ?></span></li>
                                         <li class="list-group-item d-flex justify-content-between"><strong>Tanggal:</strong> <span><?= date('d M Y', strtotime($row['tanggal_temuan'])) ?></span></li>
-                                        <li class="list-group-item"><strong>Deskripsi:</strong><br><span class="text-muted"><?= nl2br($row['deskripsi']) ?></span></li>
+                                        <li class="list-group-item"><strong>Deskripsi:</strong><br><span class="text-muted"><?= nl2br(htmlspecialchars($row['deskripsi'])) ?></span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -168,7 +175,7 @@ if (isset($_GET['hapus_barang'])) {
                 <?php 
                     } 
                 } else {
-                    echo "<div class='col-12 text-center py-5'><h5 class='text-muted'>Belum ada data barang temuan.</h5></div>";
+                    echo "<div class='col-12 text-center py-5'><h5 class='text-muted'>Belum ada data barang temuan yang aktif.</h5></div>";
                 }
                 ?>
             </div>

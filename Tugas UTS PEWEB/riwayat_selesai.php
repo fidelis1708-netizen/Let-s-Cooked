@@ -44,10 +44,9 @@ $result = mysqli_query($conn, $query);
             <thead class="thead-custom">
                 <tr>
                     <th class="ps-4">Barang</th>
-                    <th>Tanggal Selesai</th>
+                    <th>Tanggal Laporan</th>
                     <th>Lokasi Pengambilan</th>
-                    <th>Status</th>
-                    <th class="text-center">Aksi</th>
+                    <th class="text-justify">Status</th>                   
                 </tr>
             </thead>
             <tbody>
@@ -59,11 +58,8 @@ $result = mysqli_query($conn, $query);
                             <small class="text-muted">Kategori: Personal</small>
                         </td>
                         <td><?= date('d M Y', strtotime($row['tanggal_hilang'])); ?></td>
-                        <td>Stasiun Manggarai (Lost & Found)</td>
+                        <td>Lost & Found Commuterline Nusantara Center</td>
                         <td><span class="badge bg-success-soft text-success border border-success px-3">SELESAI</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-invoice rounded-pill px-3">Lihat Bukti Terpilih</button>
-                        </td>
                     </tr>
                     <?php endwhile; ?>
                 <?php else: ?>

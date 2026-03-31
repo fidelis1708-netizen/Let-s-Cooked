@@ -58,9 +58,6 @@ if (!isset($_SESSION['username'])) {
                     <p>Cek menu Dashboard secara berkala untuk melihat apakah barang Anda sudah ditemukan oleh petugas atau pengguna lain.</p>
                 </a>
 
-
-                
-
                 <div class="panduan-card">
                     <div class="step-number">4</div>
                     <h3>Ambil Barang</h3>

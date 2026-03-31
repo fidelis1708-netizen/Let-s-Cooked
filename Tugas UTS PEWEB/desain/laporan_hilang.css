@@ -1,14 +1,11 @@
-/* desain/riwayat.css */
 body {
   background-color: #f4f7f6;
 }
 
-/* Pengaturan Konten Utama agar tidak tertutup sidebar */
 .main-content-area {
   padding: 40px;
 }
 
-/* Kartu Arsip */
 .card-arsip {
   border: none;
   border-radius: 15px;
@@ -23,14 +20,13 @@ body {
 }
 
 .img-arsip {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
 }
 
-/* Badge & Label */
 .badge-selesai {
   background-color: #2ecc71;
   color: white;

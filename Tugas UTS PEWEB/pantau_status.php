@@ -9,7 +9,6 @@ if (!isset($_SESSION['id_user'])) {
 
 $id_pelapor = $_SESSION['id_user']; 
 
-// Ambil semua laporan yang belum selesai agar user bisa pantau
 $query = "SELECT * FROM laporan_kehilangan WHERE id_pelapor = '$id_pelapor' AND status_laporan != 'selesai' ORDER BY id_laporan DESC";
 $result = mysqli_query($conn, $query);
 ?>
@@ -38,7 +37,6 @@ $result = mysqli_query($conn, $query);
             <?php while($row = mysqli_fetch_assoc($result)): 
                 $status = $row['status_laporan'];
                 
-                // Logika penentuan warna dan teks status agar sinkron dengan admin
                 if ($status == 'cocok') {
                     $badge_bg = "bg-warning text-dark"; 
                     $status_text = "🔍 Menunggu Verifikasi";

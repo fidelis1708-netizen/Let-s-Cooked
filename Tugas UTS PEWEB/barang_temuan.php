@@ -3,17 +3,14 @@
 session_start();
 $conn = mysqli_connect("localhost", "root", "", "lostnf");
 
-// Proteksi halaman admin
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
 
-// 2. LOGIKA HAPUS BARANG (Sekaligus Hapus File Foto & Data Terelasi)
 if (isset($_GET['hapus_barang'])) {
     $id_hapus = mysqli_real_escape_string($conn, $_GET['hapus_barang']);
     
-    // Ambil nama file foto dulu
     $sql_foto = "SELECT foto_barang FROM barang_temuan WHERE id_barang = '$id_hapus'";
     $res_foto = mysqli_query($conn, $sql_foto);
     $data_foto = mysqli_fetch_assoc($res_foto);
@@ -21,14 +18,12 @@ if (isset($_GET['hapus_barang'])) {
     if ($data_foto && !empty($data_foto['foto_barang'])) {
         $path_file = "uploads/" . $data_foto['foto_barang'];
         if (file_exists($path_file)) {
-            unlink($path_file); // Hapus foto dari folder uploads
+            unlink($path_file); 
         }
     }
 
-    // PENTING: Hapus dulu data di tabel klaim_pencocokan agar tidak error Foreign Key
     mysqli_query($conn, "DELETE FROM klaim_pencocokan WHERE id_barang = '$id_hapus'");
 
-    // Baru hapus data dari database utama
     $query_hapus = "DELETE FROM barang_temuan WHERE id_barang = '$id_hapus'";
     if (mysqli_query($conn, $query_hapus)) {
         echo "<script>alert('Barang Berhasil Dihapus!'); window.location='barang_temuan.php';</script>";
@@ -106,7 +101,6 @@ if (isset($_GET['hapus_barang'])) {
 
             <div class="row">
                 <?php
-                // Query hanya mengambil barang yang BELUM selesai
                 $query = "SELECT * FROM barang_temuan 
                           WHERE status NOT IN ('selesai', 'Selesai') 
                           ORDER BY id_barang DESC";

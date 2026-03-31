@@ -1,294 +1,286 @@
-/* --- Reset & Layout Dasar --- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #f0f2f5; /* Warna background abu-abu terang */
+  background-color: #f0f2f5;
 }
 
-/* Membagi layar jadi kiri (sidebar) dan kanan (konten) */
 .layout-wrapper {
-    display: flex;
-    min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
-/* --- Sidebar Styling --- */
 .sidebar {
-    width: 260px;
-    background-color: #3b5dbb; /* Warna biru KRL */
-    color: white;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
+  width: 260px;
+  background-color: #3b5dbb;
+  color: white;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo-title {
-    font-size: 20px;
-    margin-bottom: 40px;
+  font-size: 20px;
+  margin-bottom: 40px;
 }
 
 .sidebar-menu a {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 12px 15px;
-    display: block;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    transition: 0.3s;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 12px 15px;
+  display: block;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
 }
 
-.sidebar-menu a:hover, .sidebar-menu a.active {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: white;
-    font-weight: bold;
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-weight: bold;
 }
 
-/* --- Konten Utama (Sebelah Kanan) --- */
 .main-content {
-    flex: 1;
-    padding: 30px 40px;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
 }
 
 .top-bar {
-    text-align: right;
-    margin-bottom: 30px;
-    font-size: 14px;
-    color: #555;
+  text-align: right;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: #555;
 }
 
 .page-header {
-    background-color: white;
-    padding: 25px 30px;
-    border-radius: 12px 12px 0 0;
-    border-bottom: 1px solid #eaeaea;
+  background-color: white;
+  padding: 25px 30px;
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1px solid #eaeaea;
 }
 
 .page-header h1 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 8px;
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 8px;
 }
 
 .page-header p {
-    color: #666;
-    font-size: 14px;
+  color: #666;
+  font-size: 14px;
 }
 
-/* --- Profil Container & Card --- */
 .profile-container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 0 0 12px 12px; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    display: flex;
-    justify-content: center; /* Posisikan card ke tengah */
+  background-color: white;
+  padding: 40px;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: center;
 }
 
 .profile-card {
-    background-color: #ffffff;
-    border: 1px solid #e4e6eb;
-    border-radius: 15px;
-    padding: 40px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e4e6eb;
+  border-radius: 15px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* --- Foto Profil (Lingkaran Inisial) --- */
 .profile-avatar {
-    background-color: #3b5dbb;
-    color: white;
-    font-size: 36px;
-    font-weight: bold;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-bottom: 30px;
-    border: 4px solid #eef2ff;
+  background-color: #3b5dbb;
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 30px;
+  border: 4px solid #eef2ff;
 }
 
-/* --- Detail Informasi --- */
 .profile-details {
-    width: 100%;
+  width: 100%;
 }
 
 .info-group {
-    margin-bottom: 20px;
-    width: 100%; /* Pastikan form takes full width */
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .info-group label {
-    display: block;
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  display: block;
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .info-value {
-    background-color: #f9fafc;
-    border: 1px solid #e4e6eb;
-    padding: 12px 15px;
-    border-radius: 8px;
-    font-size: 15px;
-    color: #333;
-    font-weight: 500;
+  background-color: #f9fafc;
+  border: 1px solid #e4e6eb;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
 }
 
-/* --- Tombol Edit --- */
 .btn-edit {
-    width: 100%;
-    background-color: #3b5dbb;
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.2s;
+  width: 100%;
+  background-color: #3b5dbb;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.2s;
 }
 
 .btn-edit:hover {
-    background-color: #2a4592;
+  background-color: #2a4592;
 }
 
-/* --- Tombol Logout --- */
 .btn-logout {
-    display: block; /* Biar tombolnya full lebar */
-    width: 100%;
-    background-color: transparent; /* Background transparan */
-    color: #dc3545; /* Teks warna merah */
-    border: 2px solid #dc3545; /* Garis pinggir warna merah */
-    text-align: center;
-    text-decoration: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px; /* Jarak dengan tombol Edit Profil */
-    transition: all 0.2s;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  color: #dc3545;
+  border: 2px solid #dc3545;
+  text-align: center;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
 }
 
-/* Efek saat tombol logout disorot mouse (hover) */
 .btn-logout:hover {
-    background-color: #dc3545; /* Background berubah jadi merah */
-    color: white; /* Teks berubah jadi putih */
+  background-color: #dc3545;
+  color: white;
 }
 
-
-/* --- Modal Pop-up Edit Profil --- */
 .modal-overlay {
-    display: none; /* Disembunyikan awalnya, JS yang akan memunculkan */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Efek redup di background */
-    z-index: 1000; /* Biar posisinya paling depan menutupi yang lain */
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Kotak Form di tengah layar */
 .modal-box {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    animation: muncul 0.3s ease-out; /* Animasi halus pas muncul */
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: muncul 0.3s ease-out;
 }
 
-/* Animasi Muncul dari atas */
 @keyframes muncul {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .modal-header h2 {
-    font-size: 20px;
-    color: #333;
+  font-size: 20px;
+  color: #333;
 }
 
 .close-btn {
-    font-size: 28px;
-    color: #aaa;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
+  font-size: 28px;
+  color: #aaa;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .close-btn:hover {
-    color: #dc3545; /* Merah pas di-hover */
+  color: #dc3545;
 }
 
-/* Styling Form dalam Pop-up */
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    color: #555;
-    font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
 }
 
 .form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: 0.3s;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.3s;
 }
 
 .form-group input:focus {
-    border-color: #3b5dbb; /* Biru KRL */
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(59, 93, 187, 0.1);
+  border-color: #3b5dbb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 93, 187, 0.1);
 }
 
 .btn-save {
-    width: 100%;
-    background-color: #3b5dbb;
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: 0.2s;
+  width: 100%;
+  background-color: #3b5dbb;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.2s;
 }
 
 .btn-save:hover {
-    background-color: #2a4592;
+  background-color: #2a4592;
 }

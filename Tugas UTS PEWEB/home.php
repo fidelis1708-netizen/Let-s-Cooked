@@ -71,7 +71,6 @@ $result_notif = mysqli_query($conn, $sql_notif);
                 <?php if(mysqli_num_rows($result_notif) > 0): ?>
                     <?php while($row = mysqli_fetch_assoc($result_notif)): 
                         $status = $row['status_laporan'];
-                        // Logika warna badge & border
                         $borderColor = ($status == 'cocok') ? '#f59e0b' : (($status == 'selesai') ? '#198754' : '#0d6efd');
                         $badgeClass = ($status == 'cocok') ? 'bg-warning' : (($status == 'selesai') ? 'bg-success' : 'bg-primary');
                     ?>

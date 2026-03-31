@@ -72,7 +72,6 @@ if (!isset($_SESSION['id_user']) || $_SESSION['role'] !== 'petugas') {
 
                 <div class="row">
                     <?php
-                    // Ambil data laporan yang sudah selesai
                     $sql_selesai = "SELECT l.*, u.nama, u.email 
                                     FROM laporan_kehilangan l 
                                     JOIN users u ON l.id_pelapor = u.id_user 

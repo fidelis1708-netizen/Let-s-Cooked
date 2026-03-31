@@ -15,7 +15,6 @@ if (isset($_POST['update'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $no_telp = mysqli_real_escape_string($conn, $_POST['no_telp']);
 
-    // Update database
     $query = "UPDATE users SET 
               nama = '$nama', 
               email = '$email', 

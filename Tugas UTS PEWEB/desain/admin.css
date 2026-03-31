@@ -10,25 +10,20 @@ body {
   color: #333;
 }
 
-/* --- KONTEN UTAMA --- */
 .main-content-area {
-  /* Memberi ruang agar tidak ditabrak sidebar */
   margin-left: 260px;
-  padding: 40px; /* Jarak dari tepi layar ke konten */
+  padding: 40px;
   min-height: 100vh;
 }
 
-/* --- CARD STYLING --- */
 .card {
   border: none;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   background-color: #ffffff;
-  /* Margin bawah agar card tidak menempel satu sama lain di mobile */
   margin-bottom: 24px;
 }
 
-/* --- FORM STYLING --- */
 .form-label {
   font-weight: 600;
   font-size: 0.85rem;
@@ -49,7 +44,6 @@ body {
   box-shadow: 0 0 0 0.25 margin-left;
 }
 
-/* --- TABLE STYLING --- */
 .table {
   margin-top: 10px;
 }

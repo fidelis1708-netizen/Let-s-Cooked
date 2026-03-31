@@ -18,7 +18,6 @@ if (isset($_POST['register'])) {
         if (mysqli_num_rows($cek_email) > 0) {
             echo "<script>alert('Email sudah digunakan!'); window.location='register.php';</script>";
         } else {
-            // QUERY DIBAWAH SUDAH DITAMBAHKAN no_telp
             $query = "INSERT INTO users (nama, email, no_telp, password, role) 
                       VALUES ('$nama', '$email', '$no_telp', '$hashed_password', '$role')";
             

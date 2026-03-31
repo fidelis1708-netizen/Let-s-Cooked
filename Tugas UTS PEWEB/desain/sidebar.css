@@ -1,10 +1,6 @@
-/* sidebar.css */
 .sidebar {
   width: 250px;
-  background: linear-gradient(
-    #4e73df,
-    #224abe
-  ) !important; /* Tambah !important jika perlu */
+  background: linear-gradient(#4e73df, #224abe) !important;
   color: white !important;
   padding: 30px 20px;
   flex-shrink: 0;

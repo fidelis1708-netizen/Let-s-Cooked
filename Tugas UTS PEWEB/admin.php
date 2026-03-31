@@ -7,7 +7,6 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-// --- LOGIKA 1: SIMPAN BARANG TEMUAN BARU ---
 if (isset($_POST['submit_simpan'])) {
     $nama_barang = mysqli_real_escape_string($conn, $_POST['nama_barang']);
     $lokasi = $_POST['lokasi'];
@@ -28,7 +27,6 @@ if (isset($_POST['submit_simpan'])) {
     }
 }
 
-// --- LOGIKA 2: VERIFIKASI DENGAN PESAN (MODAL) ---
 if (isset($_POST['submit_verif'])) {
     $id_laporan = $_POST['id_laporan'];
     $id_barang = $_POST['id_barang'];
@@ -49,7 +47,6 @@ if (isset($_POST['submit_verif'])) {
     }
 }
 
-// --- LOGIKA 3: UPDATE STATUS CEPAT ---
 if (isset($_POST['update_status'])) {
     $id_lpn = $_POST['id_laporan'];
     $status_baru = $_POST['status_baru'];
@@ -57,7 +54,6 @@ if (isset($_POST['update_status'])) {
     header("Location: admin.php");
 }
 
-// --- LOGIKA 4: HAPUS LAPORAN ---
 if (isset($_GET['hapus_laporan'])) {
     $id_hapus = $_GET['hapus_laporan'];
     mysqli_query($conn, "DELETE FROM laporan_kehilangan WHERE id_laporan = '$id_hapus'");

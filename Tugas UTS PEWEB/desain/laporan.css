@@ -22,17 +22,16 @@ body {
   flex-direction: column;
 }
 
-/* Bagian yang diubah agar rapat ke atas */
 .scroll-area {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 30px; /* Padding dikurangi agar mepet ke atas */
+  padding: 20px 30px;
 }
 
 .content-header {
   margin-bottom: 20px;
   display: flex;
-  justify-content: flex-end; /* Nama user di kanan */
+  justify-content: flex-end;
   color: #555;
   font-size: 14px;
 }

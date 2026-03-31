@@ -2,7 +2,6 @@
 session_start();
 include 'koneksi.php';
 
-// 1. CEK LOGIN (Penting agar tidak error saat akses langsung)
 if (!isset($_SESSION['id_user'])) {
     header("Location: login.php");
     exit();
@@ -10,15 +9,12 @@ if (!isset($_SESSION['id_user'])) {
 
 $id_user = $_SESSION['id_user'];
 
-// 2. AMBIL DATA USER TERBARU DARI DATABASE
 $query = mysqli_query($conn, "SELECT * FROM users WHERE id_user = '$id_user'");
 $user = mysqli_fetch_assoc($query);
 
-// 3. LOGIKA MEMBUAT INISIAL (Contoh: "Budi Utomo" jadi "BU")
 $nama_awal = $user['nama'];
 $inisial = strtoupper(substr($nama_awal, 0, 1)); 
 
-// 4. PROSES UPDATE JIKA TOMBOL DIKLIK
 if (isset($_POST['update'])) {
     $nama = mysqli_real_escape_string($conn, $_POST['nama']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);

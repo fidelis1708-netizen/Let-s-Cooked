@@ -1,8 +1,7 @@
 <?php
 session_start();
-include 'koneksi.php'; // Pastikan file koneksi database sudah benar
+include 'koneksi.php'; 
 
-// Proteksi Halaman: Hanya admin/petugas yang bisa masuk
 if (!isset($_SESSION['id_user']) || $_SESSION['role'] !== 'petugas') {
     header("Location: login.php");
     exit;
